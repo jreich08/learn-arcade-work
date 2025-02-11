@@ -43,6 +43,9 @@ arcade.draw_line(500, 550, 550, 500, arcade.color.YELLOW, 3)
 arcade.draw_line(500, 550, 450, 600, arcade.color.YELLOW, 3)
 arcade.draw_line(500, 550, 450, 500, arcade.color.YELLOW, 3)
 
+#Cricle Around the Tree I Drew
+arcade.draw_circle_outline(430, 343,60, arcade.color.CADMIUM_RED)
+
 #Text Generation
 arcade.draw_text("The Pine Tree Took Forever to Code!", 75, 230, arcade.color.FLORAL_WHITE, 20)
 
