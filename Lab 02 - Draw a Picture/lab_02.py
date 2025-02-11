@@ -19,7 +19,7 @@ arcade.draw_lrtb_rectangle_filled(0,600,300,0,arcade.csscolor.DARK_GREEN)
 # Circle Based Tree
 arcade.draw_xywh_rectangle_filled(100,300,20,60,arcade.csscolor.SIENNA)
 arcade.draw_circle_filled(110,350,30, arcade.csscolor.LIGHT_GREEN)
-# Elipse Based Trees
+# Ellipse Based Trees
 arcade.draw_xywh_rectangle_filled(180,300,20, 60, arcade.csscolor.SIENNA)
 arcade.draw_ellipse_filled(190, 370,60, 80, arcade.csscolor.LIGHT_GREEN )
 # Failed Pine Tree with Arcs
@@ -45,7 +45,7 @@ arcade.draw_line(500, 550, 550, 500, arcade.color.YELLOW, 3)
 arcade.draw_line(500, 550, 450, 600, arcade.color.YELLOW, 3)
 arcade.draw_line(500, 550, 450, 500, arcade.color.YELLOW, 3)
 
-# Cricle Around the Tree I Drew
+# Circle Around the Tree I Drew
 arcade.draw_circle_outline(430, 343,60, arcade.color.CADMIUM_RED)
 
 # Text Generation
