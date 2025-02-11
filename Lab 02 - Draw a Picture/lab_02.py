@@ -23,3 +23,4 @@ arcade.draw_triangle_filled(400, 320, 460, 320, 440, 340 ,arcade.csscolor.LIGHT_
 arcade.finish_render()
 arcade.run()
 # This code makes the window stay open
+#make sure to add more comments
