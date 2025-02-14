@@ -1,5 +1,4 @@
 import arcade
-from pyglet.font.directwrite import white
 
 # import the "arcade" library
 arcade.open_window(width=600, height=600, window_title="Drawing Test")
