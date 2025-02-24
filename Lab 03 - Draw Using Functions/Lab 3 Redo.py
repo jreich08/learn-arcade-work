@@ -2,14 +2,14 @@ import arcade
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-
+car_x=100
 def draw_grass():
     # Draw the ground
-    arcade.draw_lrtb_rectangle_filled(0, SCREEN_WIDTH, SCREEN_HEIGHT / 3, 0, arcade.color.AIR_SUPERIORITY_BLUE)
+    arcade.draw_lrtb_rectangle_filled(0, SCREEN_WIDTH, SCREEN_HEIGHT / 3, 0, arcade.csscolor.DARK_GREEN)
 
 def pine_tree(x, y):
     # Draw a point at x,y for reference
-    arcade.draw_point(x, y, arcade.color.RED, 5)
+    #arcade.draw_point(x, y, arcade.color.RED, 5)
 
     #Pine Tree
     arcade.draw_xywh_rectangle_filled(420, 200, 20, 71, arcade.csscolor.SIENNA)
@@ -61,45 +61,43 @@ def road_draw(x,y):
     arcade.draw_xywh_rectangle_filled(800, 150, 15,10, arcade.csscolor.YELLOW)
     arcade.draw_xywh_rectangle_filled(795, 150, 15,10, arcade.csscolor.YELLOW)
 #This Function Will Draw a Car to drive down the road
-def draw_car(x,y):
-    arcade.draw_xywh_rectangle_filled(100,130, 30, 20, arcade.csscolor.RED)
-  #Draw Everything
+def draw_car(x, y):
+    arcade.draw_xywh_rectangle_filled(x, y , 30, 20, arcade.csscolor.RED)
 
 
-
+    #draw_car(100,130)
 
 
 def on_draw(delta_time):
-
+    global car_x
     arcade.start_render()
 
     draw_grass()
+#Draws the road
+    road_draw(100,130)
+
+    draw_car(car_x, 130)
 
 
+    car_x += 1
+    #Draws the car
+    #draw_car(100,130)
 
-    road_draw(10,10)
-
-    draw_car(10,10)
     # Draw a pine tree
     pine_tree(10, 10)
 
-    #Add One to the X Value, making the snow person move right
-    #Negative numbers move left. Larger numbers move faster
-    on_draw.snow_person1_x +=1
-    on_draw.snow_person1_y +=-1
 
-# Create a value that our on_draw.snow_person1_x will start at
-on_draw.snow_person1_x = 150
-on_draw.snow_person1_y = 600
 def main():
-    arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Drawing with Functions")
-    arcade.set_background_color(arcade.color.DARK_BLUE)
+    arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 3")
+    arcade.set_background_color(arcade.csscolor.SKY_BLUE)
+
 
 
     #  Finish and run
     #arcade.finish_render()
     # Call on draw every 60th of a second
     arcade.schedule(on_draw, 1/60)
+
     arcade.run()
 
 # Call The Main Function to Get the Program Started

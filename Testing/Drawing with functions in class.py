@@ -36,6 +36,7 @@ def on_draw(delta_time):
     on_draw.snow_person1_x +=1
     on_draw.snow_person1_y +=-1
 
+
 # Create a value that our on_draw.snow_person1_x will start at
 on_draw.snow_person1_x = 150
 on_draw.snow_person1_y = 600
