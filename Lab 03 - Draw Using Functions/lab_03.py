@@ -14,8 +14,7 @@ def main():
     arcade.set_background_color(arcade.csscolor.SKY_BLUE)
 
 def draw_grass():
-
-    # Draw the ground
+     # Draw the ground
     arcade.draw_lrtb_rectangle_filled(0, SCREEN_WIDTH, SCREEN_HEIGHT / 3, 0, arcade.color.DARK_GREEN)
 
     arcade.start_render()
