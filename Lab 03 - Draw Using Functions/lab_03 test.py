@@ -57,7 +57,7 @@ def on_draw(delta_time):
     draw_stripes(800, 300)
 
     draw_car(car_x, 260)
-
+  #try using while loops
     car_x += 1
 
 #Draw a green tree
