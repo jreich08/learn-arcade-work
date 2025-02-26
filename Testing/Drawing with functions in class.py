@@ -27,7 +27,6 @@ def on_draw(delta_time):
     draw_grass()
 
     # Draw a snow person
-    draw_snow_person(on_draw.snow_person1_x, 140)
     draw_snow_person(on_draw.snow_person1_y, 120)
     draw_snow_person(600, 120)
 
