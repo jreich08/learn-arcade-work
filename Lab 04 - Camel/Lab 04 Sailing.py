@@ -4,22 +4,22 @@ from pycparser.c_ast import Break
 
 def main():
     # Variable Set
-    miles_pirates_sailed = -20
+    miles_pirates_sailed = -90
     miles_sailed = 0
     rations_on_board=5
     crew_status= 100
 
     def half_sail_distance(half_sail_mode):
-        if half_sail_mode == "B":  # Half Sail
+        if half_sail_mode == "B" or "b":  # Half Sail
             return random.randint(90, 100)
         return 0
     def full_sail_distance(full_sail_mode):
-        if full_sail_mode == "C":  # Full Sail
+        if full_sail_mode == "C" or "c":  # Full Sail
             return random.randint(180, 300)
         return 0
 
     def distance_pirates_sail(sail_mode):
-        if sail_mode == "B" or sail_mode == "C" or "D":
+        if sail_mode == "B" or "b" or sail_mode == "C" or "c" or "D" or "d":
             return random.randint(21,300)
         return 0
 
@@ -99,6 +99,7 @@ def main():
             print("Remaining Rations", rations_on_board)
             pirate_distance = distance_pirates_sail(user_choice)
             miles_pirates_sailed += pirate_distance
+            print("You sailed miles:", miles_sailed)
             print("Caution pirates follow! They sailed miles:", miles_pirates_sailed)
 
         # Game Failure Status Player Quits
@@ -121,6 +122,7 @@ def main():
         # Game Victory Conditions
         if miles_sailed >= 1445:
             print("You made it to Bermuda!")
+            print("You have sailed 1445 miles.")
             print("You and your crew are now safe from pirates!")
             print("You can now begin outfitting your ship for long voyage back to Holland.")
             print("Congratulations, you won the game! Good work capitan!")
