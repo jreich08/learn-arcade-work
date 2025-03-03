@@ -112,6 +112,7 @@ def main():
             print("You failed to outrun the pirates! They will now butcher your crew and steal your cargo.")
             print("You lost the game, better luck next time!")
             done=True
+
        # Game Failure Status Morale
         if crew_status <= 0:
             print("You failed to keep your crew morale high enough.")
