@@ -1,6 +1,5 @@
 import random
 
-from pycparser.c_ast import Break
 
 def main():
     # Variable Set
@@ -66,6 +65,10 @@ def main():
             pirate_distance = distance_pirates_sail(user_choice)
             miles_pirates_sailed += pirate_distance
             print("Caution pirates follow! They sailed miles:",miles_pirates_sailed)
+            distance_apart = miles_sailed - miles_pirates_sailed
+
+            if distance_apart > 0:
+                print("You are ahead of the pirates by", distance_apart, "miles.")
 
             crew_status = crew_status - random.randint (9,24)
             print("Crew Morale:", crew_status)
@@ -81,6 +84,10 @@ def main():
             pirate_distance = distance_pirates_sail(user_choice)
             miles_pirates_sailed += pirate_distance
             print("Caution pirates follow! They sailed miles:", miles_pirates_sailed)
+            distance_apart = miles_sailed - miles_pirates_sailed
+
+            if distance_apart > 0:
+                print("You are ahead of the pirates by", distance_apart, "miles.")
 
             crew_status = crew_status - random.randint(19, 49)
             print("Crew Morale:", crew_status)
@@ -92,6 +99,10 @@ def main():
             print("Number of Rations:",rations_on_board)
             print("Number of Miles Sailed:",miles_sailed)
             print("Number of Miles Pirates Sailed:",miles_pirates_sailed)
+            distance_apart = miles_sailed - miles_pirates_sailed
+
+            if distance_apart > 0:
+                print("You are ahead of the pirates by", distance_apart, "miles.")
 
         if user_choice.upper() == "D":
             print("You sail into a small harbor on a passing island. You use company funds to resupply the ship.")

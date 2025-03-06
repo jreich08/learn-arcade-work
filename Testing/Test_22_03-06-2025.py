@@ -9,12 +9,9 @@ for i in range (1,10):
     for j in range (i - 1, 0, - 1):
         print (j, end=" ")
     print()
-#Print out row
-for i in range(1,9):
-   #Print Spaces
-    for j in range (i):
-     print("  ", end="")
-    #Print Numbers
-     for j in range (1, 10 - i):
+for i in range(10):
+    for j in range (i + 2):
+        print(" ", end=" ")
+    for j in range(1, 9 - i):
         print(j, end=" ")
     print()
