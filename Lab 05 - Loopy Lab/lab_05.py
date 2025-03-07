@@ -1,4 +1,5 @@
 import arcade
+#from pymunk.examples.arrows import width
 
 
 def draw_section_outlines():
@@ -81,31 +82,66 @@ def draw_section_4():
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
     for row in range(30):
-        for column in range(30):
+        for column in range(30 - row):
             x = 0  # Instead of zero, calculate the proper x location using 'column'
-            x = column * 10 + 5
+            x = (30 - column) * 10 - 5
             y = 0  # Instead of zero, calculate the proper y location using 'row'
             #Shifts the row up
             y = row * 10 + 5 + 300
             arcade.draw_rectangle_filled(x , y, 5, 5, arcade.color.WHITE)
-
-        for row in range(30):
-                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
                 #for column in range(row):
                     #arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
-                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
     pass
 
 
 def draw_section_6():
+    # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
+    for row in range(30):
+        for column in range(30 - row):
+            x = 0  # Instead of zero, calculate the proper x location using 'column'
+            x = (column * 10 + 5 + 300)
+            y = 0  # Instead of zero, calculate the proper y location using 'row'
+            # Shifts the row up
+            y = row * 10 + 5 + 300
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            # for column in range(row):
+            # arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+
     pass
 
 
 def draw_section_7():
+    # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
+    for row in range(30):
+        for column in range(row + 1):
+            x = 0  # Instead of zero, calculate the proper x location using 'column'
+            x = (column * 10 + 5 + 600)
+            y = 0  # Instead of zero, calculate the proper y location using 'row'
+            # Shifts the row up
+            y = row * 10 + 5 + 300
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            # for column in range(row):
+            # arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
     pass
-
-
 def draw_section_8():
+    for row in range(30):
+        for column in range(row + 1):
+            x = 0  # Instead of zero, calculate the proper x location using 'column'
+            x = (30 - column) * 10 + 895
+            y = 0  # Instead of zero, calculate the proper y location using 'row'
+            # Shifts the row up
+            y = row * 10 + 5 + 300
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            # for column in range(row):
+            # arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
     pass
 
 
