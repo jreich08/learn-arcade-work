@@ -78,7 +78,7 @@ def draw_section_4():
     # Use the modulus operator and just one 'if' statement to select the color.
     pass
 
-
+#Essentially once you figure this out you just copy and paste it and manipulate the X
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
     for row in range(30):
