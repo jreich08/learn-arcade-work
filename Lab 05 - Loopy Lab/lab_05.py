@@ -87,6 +87,8 @@ def draw_section_5():
             y = 0  # Instead of zero, calculate the proper y location using 'row'
             #Shifts the row up
             y = row * 10 + 5 + 300
+            arcade.draw_rectangle_filled(x , y, 5, 5, arcade.color.WHITE)
+
         for row in range(30):
                 arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
                 #for column in range(row):
