@@ -8,7 +8,7 @@ class Room:
 
 
 def main():
-
+    done=False
     current_room = 0
 
     room0 = Room("You are standing on Longevity Hill. It is a well lit night from the full moon",
@@ -56,7 +56,7 @@ def main():
                  )
 
     room_list = [room0, room1, room2, room3, room4, room5, room6]
-    print(room_list, room0)
+    print(room0)
 
     print ("The year is 1908 under the Qing Dynasty, you serve as a loyal eunuch under Emperor Guangxu.")
     print ("Our once mighty and feared Empire stands on the brink of collapse.")
@@ -67,6 +67,7 @@ def main():
     print("Talking softly she discussed her sinister plans to ensure the Emperor falls ill.")
     print("Time is short, you must find the conspirator and put and end to the plot and save the Qing Dynasty.")
 
-    print(current_room)
+    while not done:
+        print(room_list[current_room].Description)
 
 main()
