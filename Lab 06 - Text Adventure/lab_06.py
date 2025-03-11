@@ -1,19 +1,62 @@
 class Room:
-    def __init__(self):
+    def __init__(self, description,north=0,east=0,south=0 ,west=0):
         self.Description=description
         self.North= north
         self.East= east
         self.South= south
         self.West= west
 
-room0 = Room("You are standing on Longevity Hill. It is a well lit night from the full moon")
-
-
-
-
-
 
 def main():
+
+    current_room = 0
+
+    room0 = Room("You are standing on Longevity Hill. It is a well lit night from the full moon",
+                 north=1,
+                 east=5,
+                 south=None,
+                 west=3
+                 )
+    room1 = Room("You have walked onto the Seventeen Arch bridge. Lit by newly installed electric light.",
+                 north=2,
+                 east=None,
+                 south=0,
+                 west=None
+                 )
+    room2 = Room("You entered the Hall of Benevolence and Longevity it's stunning facades dimly lit by moonlight.",
+                 north=None,
+                 east=4,
+                 south=1,
+                 west=6,
+                 )
+    room3 = Room("You enter the holy Tower of Buddhist Incense, your nose fills with the thick smoke of incense.",
+                 north=None,
+                 east=0,
+                 south=None,
+                 west=None,
+                 )
+    room4 = Room("You walk upon a dock until you reach a small row boat, you paddle out to the tranquil Marble Boat",
+                 north=None,
+                 east=None,
+                 south=None,
+                 west=2
+                 )
+    room5 = Room(
+        "You walk into the Garden of Harmonious Pleasures. This garden is the pinnacle of beauty and one of your favorite places in the palace.",
+        north=None,
+        east=None,
+        south=None,
+        west=5
+        )
+    room6 = Room("You enter the rear Pavilion of the hall of Serenity.",
+                 north=None,
+                 east=2,
+                 south=None,
+                 west=None
+                 )
+
+    room_list = [room0, room1, room2, room3, room4, room5, room6]
+    print(room_list, room0)
 
     print ("The year is 1908 under the Qing Dynasty, you serve as a loyal eunuch under Emperor Guangxu.")
     print ("Our once mighty and feared Empire stands on the brink of collapse.")
@@ -24,6 +67,6 @@ def main():
     print("Talking softly she discussed her sinister plans to ensure the Emperor falls ill.")
     print("Time is short, you must find the conspirator and put and end to the plot and save the Qing Dynasty.")
 
-
+    print(current_room)
 
 main()
