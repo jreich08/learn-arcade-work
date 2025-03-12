@@ -69,5 +69,8 @@ def main():
 
     while not done:
         print(room_list[current_room].Description)
+        user_choice=input("What is your choice?  ")
+        print()
+
 
 main()
