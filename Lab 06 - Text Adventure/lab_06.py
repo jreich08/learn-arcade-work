@@ -57,7 +57,6 @@ def main():
 
     room_list = [room0, room1, room2, room3, room4, room5, room6]
     print(room0)
-    next_room=room_list[current_room].north
 
     print ("The year is 1908 under the Qing Dynasty, you serve as a loyal eunuch under Emperor Guangxu.")
     print ("Our once mighty and feared Empire stands on the brink of collapse.")
@@ -75,9 +74,11 @@ def main():
 
 
 
-        user_choice=input("What is your choice?  ")
-        if user_choice.upper() == north:
-         print()
+        user_choice=input("Where would you like to go? (north, south, east, west, or quit)").lower()
+        if user_choice == "north" or "NORTH" or "N" or "n" or "North" and room_list[current_room].North is not None:
+            current_room = room_list[current_room].North
+            print("Welcome to the Seventeen Arch Bridge")
+    print()
 
 
 main()
