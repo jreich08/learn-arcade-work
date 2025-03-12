@@ -57,6 +57,7 @@ def main():
 
     room_list = [room0, room1, room2, room3, room4, room5, room6]
     print(room0)
+    next_room=room_list[current_room].north
 
     print ("The year is 1908 under the Qing Dynasty, you serve as a loyal eunuch under Emperor Guangxu.")
     print ("Our once mighty and feared Empire stands on the brink of collapse.")
@@ -69,8 +70,14 @@ def main():
 
     while not done:
         print(room_list[current_room].Description)
+
+
+
+
+
         user_choice=input("What is your choice?  ")
-        print()
+        if user_choice.upper() == north:
+         print()
 
 
 main()
