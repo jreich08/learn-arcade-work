@@ -77,7 +77,11 @@ def main():
         user_choice=input("Where would you like to go? (north, south, east, west, or quit)").lower()
         if user_choice == "north" or "NORTH" or "N" or "n" or "North" and room_list[current_room].North is not None:
             current_room = room_list[current_room].North
-            print("Welcome to the Seventeen Arch Bridge")
+            print("You moved North")
+        elif user_choice == "east" and room_list[current_room].East is not None:
+            current_room = room_list[current_room].North
+            print("You moved East")
+
     print()
 
 
