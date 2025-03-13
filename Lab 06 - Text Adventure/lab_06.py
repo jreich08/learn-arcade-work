@@ -100,18 +100,23 @@ def main():
         if user_choice.lower() == "north" or user_choice.lower() == "n" and room_list[current_room].north is not None:
             current_room = room_list[current_room].north
             print("You moved North")
+
         elif user_choice.lower() == "east" or user_choice.lower() == "e" and room_list[current_room].east is not None:
             current_room = room_list[current_room].east
             print("You moved East")
+
         elif user_choice.lower() == "west" or user_choice.lower() == "w" and room_list[current_room].west is not None:
             current_room= room_list[current_room].west
             print("You moved West")
+
         elif user_choice.lower() == "south" or user_choice.lower() == "s" and room_list[current_room].south is not None:
             current_room= room_list[current_room].south
             print("You moved South")
+
         elif user_choice.lower() == "quit" or user_choice.lower() == "q":
             print("You quit the game goodbye!")
             done=True
+
         else:
             print("You cannot go that way.")
 
