@@ -124,3 +124,6 @@ def main():
 
 
 main()
+
+
+# I plan to do more with this if I have the time and potentially make a my final game out of this code. As of right now it is pretty empty
