@@ -1,10 +1,10 @@
 class Room:
     def __init__(self, description, north, east, south, west):
         self.Description=description
-        self.North= north
-        self.East= east
-        self.South= south
-        self.West= west
+        self.north= north
+        self.east= east
+        self.south= south
+        self.west= west
 
 
 def main():
@@ -32,7 +32,7 @@ def main():
                  north=None,
                  east=4,
                  south=1,
-                 west=6,
+                 west=6
                  )
     room_list.append(room)
     #3
@@ -40,11 +40,11 @@ def main():
                  north=None,
                  east=0,
                  south=None,
-                 west=None,
+                 west=None
                  )
     room_list.append(room)
     #4
-    room = Room("You walk upon a dock until you reach a small row boat, you paddle out to the tranquil Marble Boat",
+    room = Room("You walk upon a dock until you reach a small row boat, you paddle out to the tranquil Marble Boat.",
                  north=None,
                  east=None,
                  south=None,
@@ -96,22 +96,24 @@ def main():
 
 
 
-        user_choice=input("Where would you like to go? (north, south, east, west, or quit)").lower()
-        if user_choice.lower() == "north" or user_choice.lower() == "n" and room_list[current_room].North is not None:
-            current_room = room_list[current_room].North
+        user_choice=input("Where would you like to go? (north, south, east, west, or quit) ").lower()
+        if user_choice.lower() == "north" or user_choice.lower() == "n" and room_list[current_room].north is not None:
+            current_room = room_list[current_room].north
             print("You moved North")
-        elif user_choice.lower() == "east" or user_choice.lower() == "e" and room_list[current_room].East is not None:
-            current_room = room_list[current_room].East
+        elif user_choice.lower() == "east" or user_choice.lower() == "e" and room_list[current_room].east is not None:
+            current_room = room_list[current_room].east
             print("You moved East")
-        elif user_choice.lower() == "west" or user_choice.lower() == "w" and room_list[current_room].West is not None:
-            current_room= room_list[current_room].East
+        elif user_choice.lower() == "west" or user_choice.lower() == "w" and room_list[current_room].west is not None:
+            current_room= room_list[current_room].west
             print("You moved West")
-        elif user_choice.lower() == "south" or user_choice.lower() == "s" and room_list[current_room].West is not None:
-            current_room= room_list[current_room].South
+        elif user_choice.lower() == "south" or user_choice.lower() == "s" and room_list[current_room].south is not None:
+            current_room= room_list[current_room].south
             print("You moved South")
         elif user_choice.lower() == "quit" or user_choice.lower() == "q":
             print("You quit the game goodbye!")
             done=True
+        else:
+            print("You cannot go that way.")
 
     print()
 
