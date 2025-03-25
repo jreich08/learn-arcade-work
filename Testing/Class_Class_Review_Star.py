@@ -8,3 +8,4 @@ def main():
     my_star.star_born()
 
 main()
+#Star Class
