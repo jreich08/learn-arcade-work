@@ -50,6 +50,8 @@ class MyGame(arcade.Window):
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
 
+        self.set_mouse_visible(False)
+
     def background_image(self):
 
             # Draw the ground

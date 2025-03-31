@@ -49,6 +49,9 @@ class MyGame(arcade.Window):
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
         self.car = Vehicle(100, 130, 30, arcade.color.RED)
+        self.set_mouse_visible(False)
+        self.sound = arcade.load_sound(":resources:sounds/rockHit2.ogg")
+
 
     def background_image(self):
 
@@ -119,7 +122,7 @@ class MyGame(arcade.Window):
         elif key == arcade.key.RIGHT:
             self.car.change_x = MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            self.car.change_y = MOVEMENT_SPEED
+            #self.car.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
             self.car.change_y = -MOVEMENT_SPEED
 
@@ -134,7 +137,11 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self.background_image()
         self.car.draw()
-        
+
+    def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
+        arcade.play_sound(self.sound)
+
+
 
 def main():
     window = MyGame()
