@@ -14,16 +14,17 @@ class Vehicle:
         # and create instance variables out of them.
         self.position_x = position_x
         self.position_y = position_y
-        self.color = arcade.color.RED
-        self.width = 30
-        self.height = 20
+        self.radius = radius
+        self.color = color
+        self.width = width
+        self.height = height
+        arcade.draw_xywh_rectangle_filled(0,130,30, 20, arcade.csscolor.RED)
 
         self.change_x = 0
         self.change_y = 0
 
     def draw(self):
-        """ Draw the balls with the instance variables we have. """
-        arcade.draw_rectangle_filled(self.position_x, self.position_y, self.width, self.height, self.color)
+        arcade.draw_rectangle_filled(self.position_x, self.position_y, self.radius, self.color)
 
     def update(self):
         self.position_x += self.change_x
@@ -48,7 +49,6 @@ class MyGame(arcade.Window):
 
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
-        self.car = Vehicle(100, 130, 30, arcade.color.RED)
 
     def background_image(self):
 
@@ -104,10 +104,11 @@ class MyGame(arcade.Window):
         arcade.draw_triangle_filled(405, 140, 455, 140, 430, 185, arcade.csscolor.LIGHT_GREEN)
         arcade.draw_triangle_filled(410, 140, 450, 140, 430, 200, arcade.csscolor.LIGHT_GREEN)
 
+        self.car = Vehicle(0,130,30, 20)
+        self.car.position_x
 
     def on_draw(self):
         arcade.start_render()
-        arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self.car.draw()
 
     def update(self, delta_time):
@@ -130,11 +131,10 @@ class MyGame(arcade.Window):
             self.car.change_y = 0
 
     def on_draw(self):
-        arcade.start_render()
         arcade.set_background_color(arcade.csscolor.SKY_BLUE)
+        arcade.start_render()
         self.background_image()
-        self.car.draw()
-        
+
 
 def main():
     window = MyGame()
