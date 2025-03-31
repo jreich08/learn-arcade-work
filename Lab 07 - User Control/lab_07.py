@@ -122,7 +122,7 @@ class MyGame(arcade.Window):
         elif key == arcade.key.RIGHT:
             self.car.change_x = MOVEMENT_SPEED
         elif key == arcade.key.UP:
-            #self.car.change_y = MOVEMENT_SPEED
+            self.car.change_y = MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
             self.car.change_y = -MOVEMENT_SPEED
 
