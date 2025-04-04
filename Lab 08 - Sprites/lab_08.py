@@ -11,6 +11,16 @@ COIN_COUNT = 50
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
+class Coin(arcade.Sprite):
+
+    def update(self):
+        self.angle += self.change_angle
+
+        self.center_y -= 1
+
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
+
 
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
@@ -24,6 +34,8 @@ class MyGame(arcade.Window):
 
         self.player_sprite = None
 
+        self.set_mouse_visible(False)
+
 
 
 
@@ -33,7 +45,7 @@ class MyGame(arcade.Window):
 
         #Sprite Lists
         self.player_list = arcade.SpriteList()
-        #self.coin_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
 
         #Score
         self.score = 0
@@ -46,12 +58,27 @@ class MyGame(arcade.Window):
         self.player_list.append(self.player_sprite)
 
 
+        for i in range(COIN_COUNT):
+            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+
+
+
     def on_draw(self):
         arcade.start_render()
+        arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
+
 
         #self.coin_list.draw()
         if self.player_list:
             self.player_list.draw()
+
+    def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
+        self.player_sprite.center_x = x
+        self.player_sprite.center_y = y
+
+    #def on_update(self, delta_time):
+
+
 
 
 
@@ -65,3 +92,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#Need a bad class
