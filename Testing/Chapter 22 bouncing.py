@@ -88,8 +88,8 @@ class MyGame(arcade.Window):
             coin = Coin(":resources:images/items/coinGold_lr.png", SPRITE_SCALING_COIN)
 
             # Position the coin
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(SCREEN_HEIGHT)
+            coin.center_x = random.randrange(0,SCREEN_WIDTH)
+            coin.center_y = random.randrange(0, SCREEN_HEIGHT)
             coin.change_x = random.randrange(-3, 4)
             coin.change_y = random.randrange(-3, 4)
 
@@ -128,7 +128,7 @@ class MyGame(arcade.Window):
         for coin in hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
-            arcade.play_sound(self.coin_sound)
+            #arcade.play_sound(self.coin_sound)
 
 def main():
     """ Main method """

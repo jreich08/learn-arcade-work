@@ -13,13 +13,32 @@ SCREEN_HEIGHT = 1000
 
 class Coin(arcade.Sprite):
 
-    def update(self):
-        self.angle += self.change_angle
+    def __init__(self, filename, sprite_scaling):
+        super().__init__(filename, sprite_scaling)
 
-        self.center_y -= 1
+        self.change_x = 0
+        self.change_y = 0
 
-        if self.center_y == 0:
-            self.center_y = SCREEN_HEIGHT
+        self.coin_sound = arcade.load_sound(":resources:sounds/coin3.wav")
+
+    def update(self, delta_time: float = 1 / 60) -> None:
+
+        # Move the coin
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        # If we are out-of-bounds, then 'bounce'
+        if self.left < 0:
+            self.change_x *= -1
+
+        if self.right > SCREEN_WIDTH:
+            self.change_x *= -1
+
+        if self.bottom < 0:
+            self.change_y *= -1
+
+        if self.top > SCREEN_HEIGHT:
+            self.change_y *= -1
 
 
 class MyGame(arcade.Window):
@@ -34,49 +53,70 @@ class MyGame(arcade.Window):
 
         self.player_sprite = None
 
+        self.coin_list = None
+
+
         self.set_mouse_visible(False)
 
-
-
-
-
-
     def setup(self):
-
-        #Sprite Lists
+        # Sprite Lists
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
 
-        #Score
+        # Score
         self.score = 0
 
-        #Set Up The Player
-        #Ship file https://kenney.nl/assets/pirate-pack
+        # Set Up The Player
         self.player_sprite = arcade.Sprite("ship (7).png", SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
 
-
         for i in range(COIN_COUNT):
-            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
-
-
+            coin = Coin(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+            coin.center_x = random.randint(0, SCREEN_WIDTH)
+            coin.center_y = random.randint(0, SCREEN_HEIGHT)
+            coin.change_x = random.choice([-1, 1]) * random.uniform(1, 3)
+            coin.change_y = random.choice([-1, 1]) * random.uniform(1, 3)
+            self.coin_list.append(coin)
 
     def on_draw(self):
         arcade.start_render()
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
 
-        #self.coin_list.draw()
+        self.coin_list.draw()
         if self.player_list:
             self.player_list.draw()
+
+        self.coin_list.draw()
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 100, arcade.color.WHITE, 14)
 
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
         self.player_sprite.center_x = x
         self.player_sprite.center_y = y
 
-    #def on_update(self, delta_time):
+    def on_update(self, delta_time):
+
+        """ Movement and game logic """
+
+        # Call update on all sprites (The sprites don't do much in this
+        # example though.)
+        self.coin_list.update()
+
+        # Generate a list of all sprites that collided with the player.
+        hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                            self.coin_list)
+
+        # Loop through each colliding sprite, remove it, and add to the score.
+        for coin in hit_list:
+            coin.remove_from_sprite_lists()
+            self.score += 1
+            #print("Playing sound") ( just put this in bc I didnt want to annoy everyone around me)
+            arcade.play_sound(coin.coin_sound)
+
 
 
 
