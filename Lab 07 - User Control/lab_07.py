@@ -21,6 +21,8 @@ class Vehicle:
         self.change_x = 0
         self.change_y = 0
 
+        self.sound = arcade.load_sound(":resources:sounds/rockHit2.ogg")
+
     def draw(self):
         """ Draw the balls with the instance variables we have. """
         arcade.draw_rectangle_filled(self.position_x, self.position_y, self.width, self.height, self.color)
@@ -39,6 +41,42 @@ class Vehicle:
         if self.position_y > SCREEN_HEIGHT - self.height:
             self.position_y = SCREEN_HEIGHT - self.height
 
+        if self.position_x < 1:
+            self.position_x = 1
+            arcade.play_sound(self.sound)
+            #print("Sound played")
+
+        if self.position_x > SCREEN_WIDTH - self.width:
+            self.position_x = SCREEN_WIDTH - self.width
+            arcade.play_sound(self.sound)
+            #print("Sound played")
+
+        if self.position_y < 1:
+            self.position_y = 1
+            arcade.play_sound(self.sound)
+            #print("Sound played")
+
+        if self.position_y > SCREEN_HEIGHT - self.height:
+            self.position_y = SCREEN_HEIGHT - self.height
+            arcade.play_sound(self.sound)
+            #print("Sound played")
+
+
+
+class MouseObject:
+    def __init__(self, x, y, size=20, color=arcade.color.BLUE):
+        self.x = x
+        self.y = y
+        self.size = size
+        self.color = color
+
+
+    def draw(self):
+        arcade.draw_circle_filled(self.x, self.y, self.size, self.color)
+
+    def update_position(self, x, y):
+        self.x = x
+        self.y = y
 
 class MyGame(arcade.Window):
     """ Our Custom Window Class"""
@@ -51,7 +89,7 @@ class MyGame(arcade.Window):
         self.car = Vehicle(100, 130, 30, arcade.color.RED)
         self.set_mouse_visible(False)
         self.sound = arcade.load_sound(":resources:sounds/rockHit2.ogg")
-
+        self.mouse_object = MouseObject(400, 300, size=10, color=arcade.color.BLUE)
 
     def background_image(self):
 
@@ -112,9 +150,11 @@ class MyGame(arcade.Window):
         arcade.start_render()
         arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self.car.draw()
+        self.mouse_object.draw()
 
     def update(self, delta_time):
         self.car.update()
+
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.LEFT:
@@ -126,20 +166,36 @@ class MyGame(arcade.Window):
         elif key == arcade.key.DOWN:
             self.car.change_y = -MOVEMENT_SPEED
 
+
     def on_key_release(self, key, modifiers):
         if key in (arcade.key.LEFT, arcade.key.RIGHT):
             self.car.change_x = 0
         if key in (arcade.key.UP, arcade.key.DOWN):
             self.car.change_y = 0
 
+
+
+
     def on_draw(self):
         arcade.start_render()
         arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self.background_image()
         self.car.draw()
+        self.mouse_object.draw()
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int):
         arcade.play_sound(self.sound)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.mouse_object.update_position(x, y)
+
+        if (
+                x - self.mouse_object.size <= 0 or
+                x + self.mouse_object.size >= SCREEN_WIDTH or
+                y - self.mouse_object.size <= 0 or
+                y + self.mouse_object.size >= SCREEN_HEIGHT
+        ):
+            arcade.play_sound(self.sound)
 
 
 
