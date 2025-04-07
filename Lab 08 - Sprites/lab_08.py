@@ -40,6 +40,25 @@ class Coin(arcade.Sprite):
         if self.top > SCREEN_HEIGHT:
             self.change_y *= -1
 
+class Obstacle(arcade.Sprite):
+
+    def __init__(self, filename, sprite_scaling):
+        super().__init__(filename, sprite_scaling)
+
+        self.change_x = 0
+        self.change_y = 0
+
+        # Sound effect for hitting an obstacle
+        self.hit_sound = arcade.load_sound(":resources:sounds/hurt3.wav")
+
+    def update(self, delta_time: float = 1 / 60) -> None:
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        if self.left < 0 or self.right > SCREEN_WIDTH:
+            self.change_x *= -1
+        if self.bottom < 0 or self.top > SCREEN_HEIGHT:
+            self.change_y *= -1
 
 class MyGame(arcade.Window):
     """ Our custom Window Class"""
@@ -55,8 +74,15 @@ class MyGame(arcade.Window):
 
         self.coin_list = None
 
+        self.obstacle_list = None
+
 
         self.set_mouse_visible(False)
+
+        self.game_over = False
+
+        self.game_won = False
+
 
     def setup(self):
         # Sprite Lists
@@ -80,6 +106,24 @@ class MyGame(arcade.Window):
             coin.change_y = random.choice([-1, 1]) * random.uniform(1, 3)
             self.coin_list.append(coin)
 
+        self.obstacle_list = arcade.SpriteList()
+
+        for i in range(5):
+            #Imagine these are icebergs...
+            obstacle = Obstacle(":resources:images/space_shooter/meteorGrey_big2.png", 0.5)
+            obstacle.center_x = random.randint(100, SCREEN_WIDTH - 100)
+            obstacle.center_y = random.randint(100, SCREEN_HEIGHT - 100)
+            obstacle.change_x = random.choice([-1, 1]) * random.uniform(1, 2)
+            obstacle.change_y = random.choice([-1, 1]) * random.uniform(1, 2)
+            self.obstacle_list.append(obstacle)
+
+        #I got inspired and added some music I found for free online
+        #I linked where I got it in the next line, but I named the filed "MUSIC.mp3" after download
+        #https://www.fesliyanstudios.com/royalty-free-music/download/8-bit-menu/287 I downloaded the slower one
+        self.background_music = arcade.load_sound("MUSIC.mp3")
+        arcade.play_sound(self.background_music)
+
+
     def on_draw(self):
         arcade.start_render()
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
@@ -93,6 +137,16 @@ class MyGame(arcade.Window):
         # Put the text on the screen.
         output = f"Score: {self.score}"
         arcade.draw_text(output, 10, 100, arcade.color.WHITE, 14)
+
+        self.obstacle_list.draw()
+
+        if self.game_over:
+            arcade.draw_text("GAME OVER", (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2,
+                             arcade.color.RED, 36)
+
+        if self.game_won:
+            arcade.draw_text("GAME WON CONGRATS!!!", (SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT / 2, arcade.color.GREEN,
+                             36)
 
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
         self.player_sprite.center_x = x
@@ -117,9 +171,18 @@ class MyGame(arcade.Window):
             #print("Playing sound") ( just put this in bc I didnt want to annoy everyone around me)
             arcade.play_sound(coin.coin_sound)
 
+        self.obstacle_list.update()
 
+        obstacle_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.obstacle_list)
+        for obstacle in obstacle_hit_list:
+            arcade.play_sound(obstacle.hit_sound)
+            self.score -= 1
 
+        if self.score < 0:
+            self.game_over = True
 
+        if self.score > 25:
+            self.game_won = True
 
 
 def main():
