@@ -141,11 +141,11 @@ class MyGame(arcade.Window):
         self.obstacle_list.draw()
 
         if self.game_over:
-            arcade.draw_text("GAME OVER", (SCREEN_WIDTH / 2), SCREEN_HEIGHT / 2,
+            arcade.draw_text("GAME OVER", (SCREEN_WIDTH /3), SCREEN_HEIGHT / 2,
                              arcade.color.RED, 36)
 
         if self.game_won:
-            arcade.draw_text("GAME WON CONGRATS!!!", (SCREEN_WIDTH / 2) - 200, SCREEN_HEIGHT / 2, arcade.color.GREEN,
+            arcade.draw_text("GAME WON CONGRATS!!!", (SCREEN_WIDTH / 2.5) - 200, SCREEN_HEIGHT / 2, arcade.color.GREEN,
                              36)
 
     def on_mouse_motion(self, x: int, y: int, dx: int, dy: int):
