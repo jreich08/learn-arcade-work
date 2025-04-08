@@ -7,6 +7,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 COIN_COUNT = 50
+OBSTACLE_COUNT = 15
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
@@ -19,7 +20,9 @@ class Coin(arcade.Sprite):
         self.change_x = 0
         self.change_y = 0
 
+
         self.coin_sound = arcade.load_sound(":resources:sounds/coin3.wav")
+
 
     def update(self, delta_time: float = 1 / 60) -> None:
 
@@ -83,6 +86,9 @@ class MyGame(arcade.Window):
 
         self.game_won = False
 
+        self.sound_player = None
+
+
 
     def setup(self):
         # Sprite Lists
@@ -108,7 +114,7 @@ class MyGame(arcade.Window):
 
         self.obstacle_list = arcade.SpriteList()
 
-        for i in range(5):
+        for i in range(OBSTACLE_COUNT):
             #Imagine these are icebergs...
             obstacle = Obstacle(":resources:images/space_shooter/meteorGrey_big2.png", 0.5)
             obstacle.center_x = random.randint(100, SCREEN_WIDTH - 100)
@@ -155,28 +161,41 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
 
         """ Movement and game logic """
+        self.player_list.update()
 
         # Call update on all sprites (The sprites don't do much in this
         # example though.)
         self.coin_list.update()
 
         # Generate a list of all sprites that collided with the player.
-        hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+        coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                             self.coin_list)
 
         # Loop through each colliding sprite, remove it, and add to the score.
-        for coin in hit_list:
+        for coin in coin_hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
             #print("Playing sound") ( just put this in bc I didnt want to annoy everyone around me)
-            arcade.play_sound(coin.coin_sound)
+            if not self.sound_player or not self.sound_player.playing:
+                self.sound_player = arcade.play_sound(coin.coin_sound)
 
         self.obstacle_list.update()
 
-        obstacle_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.obstacle_list)
-        for obstacle in obstacle_hit_list:
-            arcade.play_sound(obstacle.hit_sound)
-            self.score -= 1
+        if self.score < 25:
+
+            obstacle_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.obstacle_list)
+            if obstacle_hit_list:
+                for obstacle in obstacle_hit_list:
+                    if len(self.coin_list) > 25:
+                        obstacle.remove_from_sprite_lists()
+                self.score -= 1
+                if not self.sound_player or not self.sound_player.playing:
+                    self.sound_player = arcade.play_sound(obstacle.hit_sound)
+                if len(self.coin_list) < 0:
+                    self.game_over = True
+
+
+
 
         if self.score < 0:
             self.game_over = True
