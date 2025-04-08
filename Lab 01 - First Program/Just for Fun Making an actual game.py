@@ -7,6 +7,8 @@ SPRITE_SCALING_PLAYER = 0.5
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
+MOVEMENT_SPEED = 1.5
+
 class Ships(arcade.Sprite):
     def __init__(self, filename, sprite_scaling):
         super().__init__(filename, sprite_scaling)
@@ -29,6 +31,11 @@ class MyGame(arcade.Window):
 
     def setup(self):
         self.score=0
+
+        self.player_sprite = arcade.Sprite("ship (3).png", 1.0)
+        self.player_sprite.center_x = 200
+        self.player_sprite.center_y = 260
+        self.player_sprite.angle = 0
 
     def draw_island01(self):
         tile_06 = arcade.Sprite("tile_06.png", 1.0)
@@ -127,34 +134,914 @@ class MyGame(arcade.Window):
         tile_71.center_y = 840
         tile_71.draw()
 
-        tile_88 = arcade.Sprite("tile_88.png", 1.0)
-        tile_88.center_x = 230
-        tile_88.center_y = 820
-        tile_88.draw()
 
         tile_50 = arcade.Sprite("tile_50.png", 0.5)
         tile_50.center_x = 270
         tile_50.center_y = 780
         tile_50.draw()
 
+    def draw_island02(self):
+        tile_06 = arcade.Sprite("tile_06.png",1.0)
+        tile_06.center_x = 700
+        tile_06.center_y = 400
+        tile_06.draw()
 
+        tile_38 = arcade.Sprite("tile_38.png", 1.0)
+        tile_38.center_x = 700
+        tile_38.center_y = 340
+        tile_38.draw()
+
+        tile_38 = arcade.Sprite("tile_38.png", 1.0)
+        tile_38.center_x = 700
+        tile_38.center_y = 280
+        tile_38.draw()
+
+        tile_22 = arcade.Sprite("tile_22.png", 1.0)
+        tile_22.center_x = 700
+        tile_22.center_y = 220
+        tile_22.draw()
+
+        ile_38 = arcade.Sprite("tile_38.png", 1.0)
+        tile_38.center_x = 700
+        tile_38.center_y = 180
+        tile_38.draw()
+
+        ile_38 = arcade.Sprite("tile_38.png", 1.0)
+        tile_38.center_x = 700
+        tile_38.center_y = 120
+        tile_38.draw()
+
+
+        tile_22 = arcade.Sprite("tile_22.png", 1.0)
+        tile_22.center_x = 700
+        tile_22.center_y = 80
+        tile_22.draw()
+
+        tile_07 = arcade.Sprite("tile_07.png", 1.0)
+        tile_07.center_x = 760
+        tile_07.center_y = 400
+        tile_07.draw()
+
+        tile_07 = arcade.Sprite("tile_07.png", 1.0)
+        tile_07.center_x = 820
+        tile_07.center_y = 400
+        tile_07.draw()
+
+        tile_08 = arcade.Sprite("tile_08.png",1.0)
+        tile_08.center_x = 880
+        tile_08.center_y = 400
+        tile_08.draw()
+
+        tile_07 = arcade.Sprite("tile_07.png", 1.0)
+        tile_07.center_x = 940
+        tile_07.center_y = 400
+        tile_07.draw()
+
+        tile_08 = arcade.Sprite("tile_08.png", 1.0)
+        tile_08.center_x = 1000
+        tile_08.center_y = 400
+        tile_08.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 60
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 1000
+        tile_40.center_y = 40
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 960
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 780
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 800
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 820
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 760
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 840
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 860
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 880
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 260
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 240
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 220
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 200
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 180
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 160
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 140
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 120
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 100
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 900
+        tile_40.center_y = 80
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 920
+        tile_40.center_y = 340
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 920
+        tile_40.center_y = 320
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 920
+        tile_40.center_y = 300
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 920
+        tile_40.center_y = 280
+        tile_40.draw()
+
+        tile_40 = arcade.Sprite("tile_40.png", 1.0)
+        tile_40.center_x = 920
+        tile_40.center_y = 260
+        tile_40.draw()
+
+    def draw_player(self):
+        self.player_sprite.draw()
 
     def on_draw(self):
         arcade.start_render()
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
         self.draw_island01()
-
+        self.draw_island02()
+        self.draw_player()
 
     def on_key_press(self, key, modifiers):
+
         if key == arcade.key.LEFT:
             self.player_sprite.change_x = -MOVEMENT_SPEED
+            self.player_sprite.angle = -90  # Rotate to face left
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = MOVEMENT_SPEED
+            self.player_sprite.angle = 90  # Rotate to face left
         elif key == arcade.key.UP:
             self.player_sprite.change_y = MOVEMENT_SPEED
+            self.player_sprite.angle = 180  # Rotate to face up (fixed angle)
         elif key == arcade.key.DOWN:
             self.player_sprite.change_y = -MOVEMENT_SPEED
+            self.player_sprite.angle = 0  # Rotate to face down
 
+    def on_key_release(self, key, modifiers):
+        """Handle key releases to stop movement."""
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.player_sprite.change_x = 0
+        elif key == arcade.key.UP or key == arcade.key.DOWN:
+            self.player_sprite.change_y = 0
+
+
+    def on_update(self, delta_time):
+        self.player_sprite.update()
 
 
 def main():
