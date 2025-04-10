@@ -7,7 +7,7 @@ SPRITE_SCALING_PLAYER = 0.5
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
-MOVEMENT_SPEED = 1.5
+MOVEMENT_SPEED = 3
 
 class Ships(arcade.Sprite):
     def __init__(self, filename, sprite_scaling):
@@ -1027,7 +1027,7 @@ class MyGame(arcade.Window):
             self.player_sprite.angle = 90  # Rotate to face left
         elif key == arcade.key.UP:
             self.player_sprite.change_y = MOVEMENT_SPEED
-            self.player_sprite.angle = 180  # Rotate to face up (fixed angle)
+            self.player_sprite.angle = 180  # Rotate to face up
         elif key == arcade.key.DOWN:
             self.player_sprite.change_y = -MOVEMENT_SPEED
             self.player_sprite.angle = 0  # Rotate to face down
