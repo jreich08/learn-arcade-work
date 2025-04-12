@@ -52,6 +52,7 @@ class MyGame(arcade.Window):
         self.camera_gui = arcade.Camera(width, height)
 
     def setup(self):
+        #LISTS
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
