@@ -36,7 +36,7 @@ def linear_search(word, dictionary):
 
     # Loop until you reach the end of the dictionary, or the value at the
     # current position is equal to the word
-    found = False
+
     while current_position_in_dictionary < len(dictionary) and dictionary[current_position_in_dictionary] != word:
         # Advance to the next word in the list
         current_position_in_dictionary += 1
@@ -48,19 +48,21 @@ def linear_search(word, dictionary):
 
 def main():
     dictionary_words = read_in_file("dictionary.txt")
-    print(f"There are {len(dictionary_words)} words in the dictionary.")
-    for word in dictionary_words:
-        print(word)
+   # print(f"There are {len(dictionary_words)} words in the dictionary.")
+   #for word in dictionary_words:
+    #    print(word)
 
     chapter_lines = read_in_file("AliceInWonderLand200.txt")
-    chapter_words = []
-    for line in chapter_lines:
-        words = split_line(line)
+    #chapter_words = []
+    #for line in chapter_lines:
+    for i in range(len(chapter_lines)):
+        words = split_line(chapter_lines[i])
         for word in words:
-            chapter_words.append(word)
+             if not linear_search(word.upper(), dictionary_words):
+                 print(f'The word \'{word}\' is not in the dictionary.')
+                 print(f'Discrepancy found on line {i+1}. ')
 
-    for word in chapter_words:
-        print(word)
+
 
 
 main()
