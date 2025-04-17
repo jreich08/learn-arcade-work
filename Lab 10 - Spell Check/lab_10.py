@@ -27,6 +27,35 @@ def read_in_file(file_name):
 
     return line_list
 
+def binary_search(word, dictionary):
+    # --- Binary search
+    key = "word"
+    lower_bound = 0
+    upper_bound = len(dictionary) - 1
+    found = False
+
+    # Loop until we find the item, or our upper/lower bounds meet
+    while lower_bound <= upper_bound and not found:
+
+        # Find the middle position
+        middle_pos = (lower_bound + upper_bound) // 2
+
+        # Figure out if we:
+        # move up the lower bound, or
+        # move down the upper bound, or
+        # we found what we are looking for
+        if dictionary[middle_pos] < word:
+            lower_bound = middle_pos + 1
+        elif dictionary[middle_pos] > key:
+            upper_bound = middle_pos - 1
+        else:
+            found = True
+
+    if found:
+        print("The name is at position", middle_pos)
+    else:
+        print("The name was not in the list.")
+
 def linear_search(word, dictionary):
     # --- Linear search
 
@@ -60,7 +89,7 @@ def main():
         for word in words:
              if not linear_search(word.upper(), dictionary_words):
                  print(f'The word \'{word}\' is not in the dictionary.')
-                 print(f'Discrepancy found on line {i+1}. ')
+                 print(f'Through linear search discrepancy found on line {i+1}. ')
 
 
 
