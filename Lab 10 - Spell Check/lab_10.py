@@ -44,17 +44,17 @@ def binary_search(word, dictionary):
         # move up the lower bound, or
         # move down the upper bound, or
         # we found what we are looking for
-        if dictionary[middle_pos] < word:
+        if dictionary[middle_pos] < word.upper():
             lower_bound = middle_pos + 1
-        elif dictionary[middle_pos] > key:
+        elif dictionary[middle_pos] > word.upper():
             upper_bound = middle_pos - 1
         else:
             found = True
 
     if found:
-        print("The name is at position", middle_pos)
+        return True
     else:
-        print("The name was not in the list.")
+        return False
 
 def linear_search(word, dictionary):
     # --- Linear search
@@ -94,4 +94,6 @@ def main():
 
 
 
+
+binary_search()
 main()
