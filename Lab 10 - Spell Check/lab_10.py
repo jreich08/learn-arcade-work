@@ -86,12 +86,10 @@ def main():
         for word in words:
             word_upper = word.upper()
 
-            # Linear search
             if not linear_search(word_upper, dictionary_words):
                 print(f'The word \'{word}\' is not in the dictionary.')
                 print(f'Through linear search discrepancy found on line {i+1}.')
 
-            # Binary search
             if not binary_search(word_upper, dictionary_words):
                 print(f"The word '{word}' is not in the dictionary.")
                 print(f"Through binary search discrepancy found on line {i + 1}.")
