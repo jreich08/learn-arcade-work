@@ -29,7 +29,6 @@ def read_in_file(file_name):
 
 def binary_search(word, dictionary):
     # --- Binary search
-    key = "word"
     lower_bound = 0
     upper_bound = len(dictionary) - 1
     found = False
@@ -77,23 +76,28 @@ def linear_search(word, dictionary):
 
 def main():
     dictionary_words = read_in_file("dictionary.txt")
-   # print(f"There are {len(dictionary_words)} words in the dictionary.")
-   #for word in dictionary_words:
-    #    print(word)
+    dictionary_words = [word.upper() for word in dictionary_words]
+    dictionary_words.sort()
 
     chapter_lines = read_in_file("AliceInWonderLand200.txt")
-    #chapter_words = []
-    #for line in chapter_lines:
+
     for i in range(len(chapter_lines)):
         words = split_line(chapter_lines[i])
         for word in words:
-             if not linear_search(word.upper(), dictionary_words):
-                 print(f'The word \'{word}\' is not in the dictionary.')
-                 print(f'Through linear search discrepancy found on line {i+1}. ')
+            word_upper = word.upper()
+
+            # Linear search
+            if not linear_search(word_upper, dictionary_words):
+                print(f'The word \'{word}\' is not in the dictionary.')
+                print(f'Through linear search discrepancy found on line {i+1}.')
+
+            # Binary search
+            if not binary_search(word_upper, dictionary_words):
+                print(f"The word '{word}' is not in the dictionary.")
+                print(f"Through binary search discrepancy found on line {i + 1}.")
 
 
 
 
 
-binary_search()
 main()
