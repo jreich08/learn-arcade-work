@@ -36,8 +36,12 @@ class MyGame(arcade.Window):
             for row in range (ROW_COUNT):
                 y = row * HEIGHT + HEIGHT / 2 + (row + 1) * MARGIN
 
+                color = arcade.color.WHITE
+                if self.grid[row][column] == 1:
+                    color = arcade.color.CANDY_APPLE_RED
 
-            arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, arcade.color.WHITE)
+
+                arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         """
@@ -47,6 +51,13 @@ class MyGame(arcade.Window):
             column = x // (WIDTH + MARGIN)
             row = y // (HEIGHT + MARGIN)
             print(f"Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
+            if self.grid[row][column] == 0:
+                self.grid[row][column] = 1
+
+            else:
+                self.grid[row][column] = 0
+
+
 
 
 
