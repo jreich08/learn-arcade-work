@@ -46,7 +46,7 @@ class MyGame(arcade.Window):
         if button == arcade.MOUSE_BUTTON_LEFT or button == arcade.MOUSE_BUTTON_RIGHT:
             column = x // (WIDTH + MARGIN)
             row = y // (HEIGHT + MARGIN)
-            print("f""Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
+            print(f"Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
 
 
 
