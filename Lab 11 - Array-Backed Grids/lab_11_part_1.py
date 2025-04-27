@@ -50,7 +50,6 @@ class MyGame(arcade.Window):
             print(f"Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
 
             if row >= 0 and row < ROW_COUNT and column >= 0 and column < COLUMN_COUNT:
-                # Toggle the clicked cell
                 if self.grid[row][column] == 0:
                     self.grid[row][column] = 1
                 else:
