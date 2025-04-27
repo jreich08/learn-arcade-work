@@ -56,7 +56,6 @@ class MyGame(arcade.Window):
                 else:
                     self.grid[row][column] = 0
 
-                # Toggle adjacent cells
                 if row > 0:
                     if self.grid[row - 1][column] == 0:
                         self.grid[row - 1][column] = 1
