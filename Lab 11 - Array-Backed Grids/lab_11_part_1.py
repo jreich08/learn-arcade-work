@@ -44,32 +44,62 @@ class MyGame(arcade.Window):
                 arcade.draw_rectangle_filled(x, y, WIDTH, HEIGHT, color)
 
     def on_mouse_press(self, x, y, button, key_modifiers):
-        """
-        Called when the user presses a mouse button.
-        """
         if button == arcade.MOUSE_BUTTON_LEFT or button == arcade.MOUSE_BUTTON_RIGHT:
             column = x // (WIDTH + MARGIN)
             row = y // (HEIGHT + MARGIN)
             print(f"Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
 
             if row >= 0 and row < ROW_COUNT and column >= 0 and column < COLUMN_COUNT:
-                # Toggle clicked cell
-                self.grid[row][column] = 1 if self.grid[row][column] == 0 else 0
+                # Toggle the clicked cell
+                if self.grid[row][column] == 0:
+                    self.grid[row][column] = 1
+                else:
+                    self.grid[row][column] = 0
 
                 # Toggle adjacent cells
-                adjacent = [
-                    (row - 1, column),  # Up
-                    (row + 1, column),  # Down
-                    (row, column - 1),  # Left
-                    (row, column + 1)  # Right
-                ]
+                if row > 0:
+                    if self.grid[row - 1][column] == 0:
+                        self.grid[row - 1][column] = 1
+                    else:
+                        self.grid[row - 1][column] = 0
 
-                for r, c in adjacent:
-                    if 0 <= r < ROW_COUNT and 0 <= c < COLUMN_COUNT:
-                        self.grid[r][c] = 1 if self.grid[r][c] == 0 else 0
+                if row < ROW_COUNT - 1:
+                    if self.grid[row + 1][column] == 0:
+                        self.grid[row + 1][column] = 1
+                    else:
+                        self.grid[row + 1][column] = 0
 
+                if column > 0:
+                    if self.grid[row][column - 1] == 0:
+                        self.grid[row][column - 1] = 1
+                    else:
+                        self.grid[row][column - 1] = 0
 
+                if column < COLUMN_COUNT - 1:
+                    if self.grid[row][column + 1] == 0:
+                        self.grid[row][column + 1] = 1
+                    else:
+                        self.grid[row][column + 1] = 0
 
+                total_selected = 0
+                for row in range(ROW_COUNT):
+                    for column in range(COLUMN_COUNT):
+                        if self.grid[row][column] == 1:
+                            total_selected += 1
+
+                print(f"Total of {total_selected} cells are selected.")
+
+                for row in range(ROW_COUNT):
+                    continuous_count = 0
+                    for column in range(COLUMN_COUNT):
+                        if self.grid[row][column] == 1:
+                            continuous_count += 1
+                        else:
+                            if continuous_count > 2:
+                                print(f"There are {continuous_count} continuous blocks selected on row {row}.")
+                            continuous_count = 0
+                    if continuous_count > 2:
+                        print(f"There are {continuous_count} continuous blocks selected on row {row}.")
 
 
 def main():
@@ -81,4 +111,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-#finished
