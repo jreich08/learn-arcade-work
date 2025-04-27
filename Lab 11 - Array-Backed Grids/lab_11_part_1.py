@@ -51,11 +51,22 @@ class MyGame(arcade.Window):
             column = x // (WIDTH + MARGIN)
             row = y // (HEIGHT + MARGIN)
             print(f"Click coordinates: ({x}, {y}). Grid Coordinates: ({row}, {column})")
-            if self.grid[row][column] == 0:
-                self.grid[row][column] = 1
 
-            else:
-                self.grid[row][column] = 0
+            if row >= 0 and row < ROW_COUNT and column >= 0 and column < COLUMN_COUNT:
+                # Toggle clicked cell
+                self.grid[row][column] = 1 if self.grid[row][column] == 0 else 0
+
+                # Toggle adjacent cells
+                adjacent = [
+                    (row - 1, column),  # Up
+                    (row + 1, column),  # Down
+                    (row, column - 1),  # Left
+                    (row, column + 1)  # Right
+                ]
+
+                for r, c in adjacent:
+                    if 0 <= r < ROW_COUNT and 0 <= c < COLUMN_COUNT:
+                        self.grid[r][c] = 1 if self.grid[r][c] == 0 else 0
 
 
 
