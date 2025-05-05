@@ -13,9 +13,10 @@ class Car:
         self.offset = 8 * scaling
         self.scaling = scaling
         self.direction = "east"
-        self.speed = 3
+        self.speed = 1
+        self.physics_engine = None
 
-        # Front sprite with mirrored textures
+        # Front of car
         self.front = arcade.Sprite()
         self.front.textures = [
             arcade.load_texture("car_front.png"),
@@ -26,7 +27,7 @@ class Car:
         self.front.center_x = x
         self.front.center_y = y
 
-        # Back sprite with mirrored textures
+        # Back of car
         self.back = arcade.Sprite()
         self.back.textures = [
             arcade.load_texture("car_back.png"),
@@ -40,6 +41,8 @@ class Car:
     def update(self):
         self.front.update()
         self.update_back_position()
+        if self.physics_engine:
+            self.physics_engine.update()
 
     def update_back_position(self):
         if self.direction == "east":
@@ -109,6 +112,13 @@ class MyGame(arcade.Window):
         self.person_sprite.center_y = 100
         self.person_sprite.visible = False
         self.scene.add_sprite("Person", self.person_sprite)
+        # Sets the invisible layer in tiled as barrier set. The goal of this is to force the car onto the road
+        self.physics_engine = arcade.PhysicsEngineSimple(
+            self.car.front,
+            walls=self.scene["Barrier"]
+        )
+        self.car.physics_engine = self.physics_engine
+
 
     def on_draw(self):
         self.clear()
