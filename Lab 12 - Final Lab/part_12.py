@@ -15,7 +15,7 @@ class Car:
         self.direction = "east"
         self.speed = 1
         self.physics_engine = None
-
+        #This is when the car is heading East or West
         # Front of car
         self.front = arcade.Sprite()
         self.front.textures = [
@@ -26,7 +26,7 @@ class Car:
         self.front.scale = scaling
         self.front.center_x = x
         self.front.center_y = y
-
+        #This is when the car is heading east or west
         # Back of car
         self.back = arcade.Sprite()
         self.back.textures = [
@@ -50,6 +50,7 @@ class Car:
             self.back.texture = self.back.textures[0]
             self.back.center_x = self.front.center_x - self.offset
         elif self.direction == "west":
+            # When heading west the car will now look normal by mirroring
             self.front.texture = self.front.textures[1]
             self.back.texture = self.back.textures[1]
             self.back.center_x = self.front.center_x + self.offset
