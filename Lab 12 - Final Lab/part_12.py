@@ -200,7 +200,7 @@ class MyGame(arcade.Window):
                     self.person_sprite.change_x = self.car.speed
                 elif key == arcade.key.E:
                     distance = arcade.get_distance_between_sprites(self.person_sprite, self.car.front)
-                    if distance < ENTER_DISTANCE:
+                    if distance < 10:
                         self.in_car = True
                         self.person_sprite.visible = False
                         print("Entered car")
