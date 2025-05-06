@@ -16,65 +16,54 @@ class Car:
         self.direction = "east"
         self.speed = 1
         self.physics_engine = None
-        #This is when the car is heading East or West
 
         # Front of car
         self.front = arcade.Sprite()
         self.front.textures = [
-            arcade.load_texture("car_front.png"), #Facing East
-            arcade.load_texture("car_front.png", mirrored=True), #Facing West
-            arcade.load_texture("car_front_upward.png"),  # Facing North/south
-
-            ]
-
-
-        self.front.texture = self.front.textures[0] #default to east facing
+            arcade.load_texture("car_front.png"),                    # 0: east
+            arcade.load_texture("car_front.png", mirrored=True),     # 1: west
+            arcade.load_texture("car_front_upward.png")              # 2: north/south
+        ]
+        self.front.texture = self.front.textures[0]
         self.front.scale = scaling
         self.front.center_x = x
         self.front.center_y = y
 
-
         # Back of car
         self.back = arcade.Sprite()
         self.back.textures = [
-            arcade.load_texture("car_back.png"), #Facing west
-            arcade.load_texture("car_back.png", mirrored=True), #Facing East
-            arcade.load_texture("car_back_upward.png"), # Facing South
-
+            arcade.load_texture("car_back.png"),                     # 0: east
+            arcade.load_texture("car_back.png", mirrored=True),      # 1: west
+            arcade.load_texture("car_back_upward.png")               # 2: north/south
         ]
-
         self.back.texture = self.back.textures[0]
         self.back.scale = scaling
-
-
 
         self.update_back_position()
 
     # Update the cars movement and check for collisions
     def update(self):
-        # Updates the front of the car
         self.front.update()
-        #Updates the back of the car
         self.update_back_position()
         if self.physics_engine:
             self.physics_engine.update()
-    #Aligns the back half of the car with the front since it is two pieces
+
     def update_back_position(self):
-        self.front.angle = 0
-        self.back.angle = 0
         if self.direction == "east":
+            self.front.angle = 0
+            self.back.angle = 0
             self.front.texture = self.front.textures[0]
             self.back.texture = self.back.textures[0]
             self.back.center_x = self.front.center_x - self.offset
             self.back.center_y = self.front.center_y
 
         elif self.direction == "west":
-            # When heading west the car will now look normal by mirroring
+            self.front.angle = 0
+            self.back.angle = 0
             self.front.texture = self.front.textures[1]
             self.back.texture = self.back.textures[1]
             self.back.center_x = self.front.center_x + self.offset
             self.back.center_y = self.front.center_y
-
 
         elif self.direction == "north":
             self.front.angle = 0
@@ -85,15 +74,13 @@ class Car:
             self.back.center_y = self.front.center_y - self.offset
 
         elif self.direction == "south":
-            self.front.texture = self.front.textures[2]
-            self.back.texture = self.back.textures[2]
             self.front.angle = 180
             self.back.angle = 180
+            self.front.texture = self.front.textures[2]  # reuse upward sprite
+            self.back.texture = self.back.textures[2]    # reuse upward sprite
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y + self.offset
 
-        #self.back.center_y = self.front.center_y # Keep both halves aligned
-    #Movement controls for each direction
     def move_left(self):
         self.front.change_x = -self.speed
         self.direction = "west"
@@ -109,12 +96,13 @@ class Car:
     def move_down(self):
         self.front.change_y = -self.speed
         self.direction = "south"
-    #Stopping movement
+
     def stop_x(self):
         self.front.change_x = 0
 
     def stop_y(self):
         self.front.change_y = 0
+
 # Main Class for the Game Window
 class MyGame(arcade.Window):
     def __init__(self):
@@ -122,47 +110,39 @@ class MyGame(arcade.Window):
 
         self.tile_map = None
         self.scene = None
-        #Sprites that the player will be interacting with
         self.car = None
         self.person_sprite = None
-        #will be relevant once I code the player getting in and out of the car
         self.in_car = True
-
         self.physics_engine = None
 
     def setup(self):
-        #boots up the map
         self.tile_map = arcade.load_tilemap(MAP_FILE, scaling=TILE_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
-        # Car object
         self.car = Car(x=250, y=150, scaling=PLAYER_SCALING)
         self.scene.add_sprite("CarFront", self.car.front)
         self.scene.add_sprite("CarBack", self.car.back)
 
-        # Person sprite it is hidden at first
         self.person_sprite = arcade.Sprite("person.png", PLAYER_SCALING)
         self.person_sprite.center_x = 100
         self.person_sprite.center_y = 100
         self.person_sprite.visible = False
         self.scene.add_sprite("Person", self.person_sprite)
-        # Sets the invisible layer in tiled as barrier set. The goal of this is to force the car onto the road
+
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.car.front,
             walls=self.scene["Barrier"]
         )
         self.car.physics_engine = self.physics_engine
 
-
     def on_draw(self):
         self.clear()
         self.scene.draw()
 
     def on_update(self, delta_time):
-       #Updates the cars and physics
         if self.in_car:
             self.car.update()
-    #WASD Movement coded
+
     def on_key_press(self, key, modifiers):
         if self.in_car:
             if key == arcade.key.W:
@@ -176,14 +156,14 @@ class MyGame(arcade.Window):
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
-    #Stops movement
+
     def on_key_release(self, key, modifiers):
         if self.in_car:
             if key in [arcade.key.A, arcade.key.D]:
                 self.car.stop_x()
             elif key in [arcade.key.W, arcade.key.S]:
                 self.car.stop_y()
-#Launches the game
+
 if __name__ == "__main__":
     game = MyGame()
     game.setup()
