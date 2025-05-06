@@ -179,32 +179,29 @@ class MyGame(arcade.Window):
                 self.car.move_left()
             elif key == arcade.key.D:
                 self.car.move_right()
-            else:
-
+            elif key == arcade.key.E:
+                # Exit car
+                self.person_sprite.center_x = self.car.front.center_x - 5
+                self.person_sprite.center_y = self.car.front.center_y + 25
+                self.person_sprite.visible = True
+                self.in_car = False
+                print("Exited car")
+        else:
                 if key == arcade.key.W:
-                            self.person_sprite.change_y = self.car.speed
+                    self.person_sprite.change_y = self.car.speed
                 elif key == arcade.key.S:
-                            self.person_sprite.change_y = -self.car.speed
+                    self.person_sprite.change_y = -self.car.speed
                 elif key == arcade.key.A:
-                            self.person_sprite.change_x = -self.car.speed
+                    self.person_sprite.change_x = -self.car.speed
                 elif key == arcade.key.D:
-                            self.person_sprite.change_x = self.car.speed
-            #Makes Player get out of code
-
+                    self.person_sprite.change_x = self.car.speed
                 elif key == arcade.key.E:
-                    #Adding 25 to y and -5 from x to make character look as if he got out of the door
-                    if self.in_car:
-                        self.person_sprite.center_x = self.car.front.center_x - 5
-                        self.person_sprite.center_y = self.car.front.center_y + 25
-                        self.person_sprite.visible = True
-                        self.in_car = False
-                        print("Exited car")
-                        arcade.draw_text("Press E to Enter The Car", 100,100,arcade.color.WHITE, 20)
-                else:
                     distance = arcade.get_distance_between_sprites(self.person_sprite, self.car.front)
                     if distance < ENTER_DISTANCE:
                         self.in_car = True
                         self.person_sprite.visible = False
+                        print("Entered car")
+
                    # Player Movement Code
 
 
