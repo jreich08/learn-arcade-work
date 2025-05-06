@@ -21,10 +21,11 @@ class Car:
         self.front = arcade.Sprite()
         self.front.textures = [
             arcade.load_texture("car_front.png"), #Facing East
-            arcade.load_texture("car_front.png", mirrored=True) #Facing West
-        ]
-        arcade.load_texture("car_front_upward.png"),  # Facing North
-        arcade.load_texture("car_back_upward.png") # Facing South
+            arcade.load_texture("car_front.png", mirrored=True), #Facing West
+            arcade.load_texture("car_front_upward.png"),  # Facing North
+            arcade.load_texture("car_back_upward.png")  # Facing South
+            ]
+
 
         self.front.texture = self.front.textures[0] #default to east facing
         self.front.scale = scaling
@@ -35,10 +36,10 @@ class Car:
         self.back = arcade.Sprite()
         self.back.textures = [
             arcade.load_texture("car_back.png"), #Facing west
-            arcade.load_texture("car_back.png", mirrored=True) #Facing East
-        ]
-        arcade.load_texture("car_front_upward.png"),  # Facing North
-        arcade.load_texture("car_back_upward.png")  # Facing South
+            arcade.load_texture("car_back.png", mirrored=True), #Facing East
+            arcade.load_texture("car_front_upward.png"),  # Facing North
+            arcade.load_texture("car_back_upward.png") # Facing South
+            ]
         self.back.texture = self.back.textures[0]
         self.back.scale = scaling
 
@@ -63,10 +64,16 @@ class Car:
             self.front.texture = self.front.textures[1]
             self.back.texture = self.back.textures[1]
             self.back.center_x = self.front.center_x + self.offset
+
         elif self.direction == "north":
+            self.front.texture = self.front.textures[2]
+            self.back.texture = self.back.textures[2]
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y - self.offset
+
         elif self.direction == "south":
+            self.front.texture = self.front.textures[3]
+            self.back.texture = self.back.textures[3]
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y + self.offset
 
