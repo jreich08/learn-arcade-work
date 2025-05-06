@@ -1,4 +1,6 @@
 import arcade
+from arcade.color import WHITE
+
 #Constants
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 480
@@ -186,6 +188,7 @@ class MyGame(arcade.Window):
                 self.person_sprite.visible = True
                 self.in_car = False
                 print("Exited car")
+
         else: #player movement code
                 if key == arcade.key.W:
                     self.person_sprite.change_y = self.car.speed
