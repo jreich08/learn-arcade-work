@@ -1,5 +1,5 @@
 import arcade
-
+#Constants
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 480
 SCREEN_TITLE = "Pizza Dash"
@@ -7,7 +7,7 @@ TILE_SCALING = 3.0
 MAP_FILE = "mapcity.json"
 PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
-
+#Creates a class for the car sprite that the player will control
 class Car:
     # Int for car class
     def __init__(self, x, y, scaling):
@@ -20,10 +20,13 @@ class Car:
         # Front of car
         self.front = arcade.Sprite()
         self.front.textures = [
-            arcade.load_texture("car_front.png"),
-            arcade.load_texture("car_front.png", mirrored=True)
+            arcade.load_texture("car_front.png"), #Facing East
+            arcade.load_texture("car_front.png", mirrored=True) #Facing West
         ]
-        self.front.texture = self.front.textures[0]
+        arcade.load_texture("car_front_upward.png"),  # Facing North
+        arcade.load_texture("car_back_upward.png") # Facing South
+
+        self.front.texture = self.front.textures[0] #default to east facing
         self.front.scale = scaling
         self.front.center_x = x
         self.front.center_y = y
@@ -31,14 +34,17 @@ class Car:
         # Back of car
         self.back = arcade.Sprite()
         self.back.textures = [
-            arcade.load_texture("car_back.png"),
-            arcade.load_texture("car_back.png", mirrored=True)
+            arcade.load_texture("car_back.png"), #Facing west
+            arcade.load_texture("car_back.png", mirrored=True) #Facing East
         ]
+        arcade.load_texture("car_front_upward.png"),  # Facing North
+        arcade.load_texture("car_back_upward.png")  # Facing South
         self.back.texture = self.back.textures[0]
         self.back.scale = scaling
 
-        self.update_back_position()
 
+        self.update_back_position()
+    # Update the cars movement and check for collisions
     def update(self):
         # Updates the front of the car
         self.front.update()
@@ -46,7 +52,7 @@ class Car:
         self.update_back_position()
         if self.physics_engine:
             self.physics_engine.update()
-
+    #Aligns the back half of the car with the front since it is two pieces
     def update_back_position(self):
         if self.direction == "east":
             self.front.texture = self.front.textures[0]
@@ -64,8 +70,8 @@ class Car:
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y + self.offset
 
-        self.back.center_y = self.front.center_y
-
+        self.back.center_y = self.front.center_y # Keep both halves aligned
+    #Movement controls for each direction
     def move_left(self):
         self.front.change_x = -self.speed
         self.direction = "west"
@@ -81,27 +87,29 @@ class Car:
     def move_down(self):
         self.front.change_y = -self.speed
         self.direction = "south"
-
+    #Stopping movement
     def stop_x(self):
         self.front.change_x = 0
 
     def stop_y(self):
         self.front.change_y = 0
-
+# Main Class for the Game Window
 class MyGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         self.tile_map = None
         self.scene = None
-
+        #Sprites that the player will be interacting with
         self.car = None
         self.person_sprite = None
+        #will be relevant once I code the player getting in and out of the car
         self.in_car = True
 
         self.physics_engine = None
 
     def setup(self):
+        #boots up the map
         self.tile_map = arcade.load_tilemap(MAP_FILE, scaling=TILE_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
@@ -110,7 +118,7 @@ class MyGame(arcade.Window):
         self.scene.add_sprite("CarFront", self.car.front)
         self.scene.add_sprite("CarBack", self.car.back)
 
-        # Person sprite
+        # Person sprite it is hidden at first
         self.person_sprite = arcade.Sprite("person.png", PLAYER_SCALING)
         self.person_sprite.center_x = 100
         self.person_sprite.center_y = 100
@@ -129,9 +137,10 @@ class MyGame(arcade.Window):
         self.scene.draw()
 
     def on_update(self, delta_time):
+       #Updates the cars and physics
         if self.in_car:
             self.car.update()
-
+    #WASD Movement coded
     def on_key_press(self, key, modifiers):
         if self.in_car:
             if key == arcade.key.W:
@@ -145,14 +154,14 @@ class MyGame(arcade.Window):
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
-
+    #Stops movement
     def on_key_release(self, key, modifiers):
         if self.in_car:
             if key in [arcade.key.A, arcade.key.D]:
                 self.car.stop_x()
             elif key in [arcade.key.W, arcade.key.S]:
                 self.car.stop_y()
-
+#Launches the game
 if __name__ == "__main__":
     game = MyGame()
     game.setup()
