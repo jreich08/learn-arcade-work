@@ -7,7 +7,11 @@ TILE_SCALING = 3.0
 MAP_FILE = "mapcity.json"
 PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
-#Creates a class for the car sprite that the player will control
+MONEY_COUNT = 0
+RENT_COST = 150
+
+
+# Creates a class for the car sprite that the player will control
 class Car:
     # Int for car class
     def __init__(self, x, y, scaling):
@@ -92,7 +96,7 @@ class Car:
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y + self.offset
 
-        #self.back.center_y = self.front.center_y # Keep both halves aligned
+        #self.back.center_y = self.front.center_y # Keep both halves aligned (this became problematic to get alignment of the two sprites)
     #Movement controls for each direction
     def move_left(self):
         self.front.change_x = -self.speed
@@ -162,6 +166,8 @@ class MyGame(arcade.Window):
        #Updates the cars and physics
         if self.in_car:
             self.car.update()
+        else:
+            self.person_sprite.update()
     #WASD Movement coded
     def on_key_press(self, key, modifiers):
         if self.in_car:
@@ -173,6 +179,36 @@ class MyGame(arcade.Window):
                 self.car.move_left()
             elif key == arcade.key.D:
                 self.car.move_right()
+            else:
+
+                if key == arcade.key.W:
+                            self.person_sprite.change_y = self.car.speed
+                elif key == arcade.key.S:
+                            self.person_sprite.change_y = -self.car.speed
+                elif key == arcade.key.A:
+                            self.person_sprite.change_x = -self.car.speed
+                elif key == arcade.key.D:
+                            self.person_sprite.change_x = self.car.speed
+            #Makes Player get out of code
+
+                elif key == arcade.key.E:
+                    #Adding 25 to y and -5 from x to make character look as if he got out of the door
+                    if self.in_car:
+                        self.person_sprite.center_x = self.car.front.center_x - 5
+                        self.person_sprite.center_y = self.car.front.center_y + 25
+                        self.person_sprite.visible = True
+                        self.in_car = False
+                        print("Exited car")
+                        arcade.draw_text("Press E to Enter The Car", 100,100,arcade.color.WHITE, 20)
+                else:
+                    distance = arcade.get_distance_between_sprites(self.person_sprite, self.car.front)
+                    if distance < ENTER_DISTANCE:
+                        self.in_car = True
+                        self.person_sprite.visible = False
+                   # Player Movement Code
+
+
+
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
@@ -183,6 +219,12 @@ class MyGame(arcade.Window):
                 self.car.stop_x()
             elif key in [arcade.key.W, arcade.key.S]:
                 self.car.stop_y()
+
+        else:
+            if key in [arcade.key.W, arcade.key.S]:
+                self.person_sprite.change_y = 0
+            elif key in [arcade.key.A, arcade.key.D]:
+                self.person_sprite.change_x = 0
 #Launches the game
 if __name__ == "__main__":
     game = MyGame()
