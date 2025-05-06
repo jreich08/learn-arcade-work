@@ -180,13 +180,13 @@ class MyGame(arcade.Window):
             elif key == arcade.key.D:
                 self.car.move_right()
             elif key == arcade.key.E:
-                # Exit car
+                # Exit car and makes the player sprite spawn
                 self.person_sprite.center_x = self.car.front.center_x - 5
                 self.person_sprite.center_y = self.car.front.center_y + 25
                 self.person_sprite.visible = True
                 self.in_car = False
                 print("Exited car")
-        else:
+        else: #player movement code
                 if key == arcade.key.W:
                     self.person_sprite.change_y = self.car.speed
                 elif key == arcade.key.S:
@@ -202,7 +202,7 @@ class MyGame(arcade.Window):
                         self.person_sprite.visible = False
                         print("Entered car")
 
-                   # Player Movement Code
+
 
 
 
