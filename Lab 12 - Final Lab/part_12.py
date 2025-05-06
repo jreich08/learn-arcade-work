@@ -9,6 +9,7 @@ PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
 
 class Car:
+    # Int for car class
     def __init__(self, x, y, scaling):
         self.offset = 8 * scaling
         self.scaling = scaling
@@ -39,7 +40,9 @@ class Car:
         self.update_back_position()
 
     def update(self):
+        # Updates the front of the car
         self.front.update()
+        #Updates the back of the car
         self.update_back_position()
         if self.physics_engine:
             self.physics_engine.update()
