@@ -1,5 +1,11 @@
 import arcade
 
+#player does not have collisions
+#pizzas do not exist yet
+#money does not exist yet
+#rent does not exist yet
+#sound does not exist yet
+#no second level
 
 #Constants
 SCREEN_WIDTH = 700
