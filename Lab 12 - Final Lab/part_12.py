@@ -6,7 +6,7 @@ import arcade
 #rent does not exist yet
 #sound does not exist yet
 #no second level
-
+# game assets from here: https://kenney.nl/assets/pico-8-city
 #Constants
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 480
