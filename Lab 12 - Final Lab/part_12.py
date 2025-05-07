@@ -129,6 +129,17 @@ class Car:
 
     def stop_y(self):
         self.front.change_y = 0
+# Class Establishing My Pizzas
+class Pizza(arcade.sprite):
+    def __init__(self):
+        super().__init__("pizzaiswear.png", scale=0.5)
+        self.center_x = x
+        self.center_y = y
+        self.being_carried = False
+
+#THIS IS BROKEN
+
+
 # Main Class for the Game Window
 class MyGame(arcade.Window):
     def __init__(self):
@@ -177,6 +188,12 @@ class MyGame(arcade.Window):
             store_point.visible = False
             self.pizza_store.append(store_point)
 
+        #Pizza Code
+            pizza = Pizza(x=obj.shape[0][0], y = obj.shape[0][1])
+            self.scene.add_sprite("Pizza", pizza)
+            self.active_pizza = pizza
+
+
 
     def on_draw(self):
         self.clear()
@@ -188,6 +205,14 @@ class MyGame(arcade.Window):
             self.car.update()
         else:
             self.person_sprite.update()
+
+        if self.active_pizza and self.active_pizza.being_carried:
+                if self.in_car:
+                        self.active_pizza.center_x = self.car.front.center_x
+                        self.active_pizza.center_y = self.car.front.center_y + 20
+                else:
+                        self.active_pizza.center_x = self.person_sprite.center_x
+                        self.active_pizza.center_y = self.person_sprite.center_y + 20
     #WASD Movement coded
     def on_key_press(self, key, modifiers):
         if self.in_car:
@@ -222,11 +247,16 @@ class MyGame(arcade.Window):
                         self.in_car = True
                         self.person_sprite.visible = False
                         print("Entered car")
+                    elif key == arcade.key.E:
+                        distance = arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza)
+                        if distance < 5:
+                            self.being_carried = True
+                            print("Picked up a Pizza!")
 
 
 
 
-#hello
+
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
