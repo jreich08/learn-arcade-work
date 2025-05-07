@@ -105,7 +105,7 @@ class Car:
             self.back.center_x = self.front.center_x
             self.back.center_y = self.front.center_y + self.offset
 
-        #self.back.center_y = self.front.center_y # Keep both halves aligned (this became problematic to get alignment of the two sprites)
+
     #Movement controls for each direction
     def move_left(self):
         self.front.change_x = -self.speed
