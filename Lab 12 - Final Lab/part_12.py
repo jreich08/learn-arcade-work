@@ -1,5 +1,5 @@
 import arcade
-from arcade.color import WHITE
+
 
 #Constants
 SCREEN_WIDTH = 700
