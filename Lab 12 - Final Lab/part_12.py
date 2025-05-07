@@ -56,6 +56,7 @@ class Car:
 
         self.update_back_position()
 
+
     # Update the cars movement and check for collisions
     def update(self):
         # Updates the front of the car
@@ -135,6 +136,10 @@ class MyGame(arcade.Window):
         self.in_car = True
 
         self.physics_engine = None
+        #PIZZA CODE
+        self.pizza_store = arcade.SpriteList()
+        self.delivery_locations = []
+        self.active_pizza = None
 
     def setup(self):
         #boots up the map
@@ -158,6 +163,12 @@ class MyGame(arcade.Window):
             walls=self.scene["Barrier"]
         )
         self.car.physics_engine = self.physics_engine
+        # Creates and invisible pickup spot unfinished does not actually create a pizza yet
+        store_layer = self.tile_map.object_lists.get("Pizza Store", [])
+        for obj in store_layer:
+            store_point = arcade.Sprite(center_x=obj.shape[0][0], center_y=obj.shape[0][1])
+            store_point.visible = False
+            self.pizza_store.append(store_point)
 
 
     def on_draw(self):
