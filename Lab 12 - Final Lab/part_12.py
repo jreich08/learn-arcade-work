@@ -27,7 +27,7 @@ class Car:
         self.scaling = scaling
         self.direction = "east"
         self.speed = 1
-        self.physics_engine = None
+    #    self.physics_engine = None
         #This is when the car is heading East or West
 
         # Front of car
@@ -69,8 +69,8 @@ class Car:
         self.front.update()
         #Updates the back of the car
         self.update_back_position()
-        if self.physics_engine:
-            self.physics_engine.update()
+      #  if self.physics_engine:
+          #  self.physics_engine.update()
     #Aligns the back half of the car with the front since it is two pieces
     def update_back_position(self):
         self.front.angle = 0
@@ -168,7 +168,7 @@ class MyGame(arcade.Window):
             self.car.front,
             walls=self.scene["Barrier"]
         )
-        self.car.physics_engine = self.physics_engine
+    #    self.car.physics_engine = self.physics_engine
         # Creates and invisible pickup spot unfinished does not actually create a pizza yet
         store_layer = self.tile_map.object_lists.get("Pizza Store", [])
         for obj in store_layer:
