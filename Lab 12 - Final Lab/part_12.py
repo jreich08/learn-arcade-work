@@ -130,12 +130,12 @@ class Car:
     def stop_y(self):
         self.front.change_y = 0
 # Class Establishing My Pizzas
-class Pizza(arcade.sprite):
-    def __init__(self):
-        super().__init__("pizzaiswear.png", scale=0.5)
-        self.center_x = x
-        self.center_y = y
-        self.being_carried = False
+#class Pizza(arcade.sprite):
+    #def __init__(self):
+        #super().__init__("pizzaiswear.png", scale=0.5)
+       # self.center_x = x
+        #self.center_y = y
+        #self.being_carried = False
 
 #THIS IS BROKEN
 
