@@ -1,5 +1,5 @@
 
-"""_____________PRINT LAST AND FIRST NAME________________"""
+"""______1______PRINT LAST AND FIRST NAME________________"""
 #user_name = input("What is your first and last name?") or user_name.lower() == "john"
 
 #def main():
@@ -9,7 +9,7 @@
 """____________PRINT LAST AND FIRST NAME CODE___________"""
 
 
-"""___________DRAW A CHICKEN____________________________"""
+"""______2____DRAW A CHICKEN____________________________"""
 #print(" /\"\"\\            '  ")
 #print("<>^  L__________/ |")
 #print(" `) /`     '     /")
@@ -19,19 +19,43 @@
 """___________DRAW A CHICKEN____________________________"""
 
 
+"""_____3_____PRINT NUMBERS 100 TO 200_________________ """
+#def number_print():
+#    i = 200
+#    while i >= 100:
+#        print(i)
+#        i -= 1
+
+#number_print()
 """___________PRINT NUMBERS 100 TO 200_________________ """
-def number_print():
-    i = 200
-    while i <= 200 or i >= 100:
-        print(i)
-        i -= 1
 
-#THIS IS BROKEN!!!
+"""___4__FOR LOOP PRINT NUMBERS 1 TO 50 (INCLUSIVE)____ """
+#for i in range(51):
+#    print(i)
+"""______FOR LOOP PRINT NUMBERS 1 TO 50 (INCLUSIVE)____ """
+
+"""___5__WRITE CODE USING TWO NESTED "FOR LOOPS THAT WILL OUTPUT THE FOLLOWING____"""
+# Loop from 10 down to 1 (this controls the number of columns per row)
+#for i in range(10, 0, -1):  # i starts at 10 and decreases to 1
+    # Loop from 0 up to (but not including) i
+#    for j in range(i):  # this controls how many numbers to print on each line
+#        print(j, end=" ")  # print the number j on the same line, followed by a space
+#    print()  # after finishing one row, move to the next line
+"""______WRITE CODE USING TWO NESTED "FOR LOOPS THAT WILL OUTPUT THE FOLLOWING____"""
+
+"""___6__CREATE A FUNCTION THAT TAKES TWO NUMBERS AND RETURNS THE LARGEST_________"""
+
+#def return_largest(a, b):
+    #if a > b:
+        #return a
+    #else:
+        #return b
+
+# Call the function with two numbers and print the result
+#print(return_largest(5, 10))
+"""______CREATE A FUNCTION THAT TAKES TWO NUMBERS AND RETURNS THE LARGEST_________"""
 
 
-
-
-number_print()
 
 
 
