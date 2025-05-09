@@ -202,6 +202,10 @@ class MyGame(arcade.Window):
                     print(" Pizza created and added to scene.")
                 except Exception as e:
                     print(" Error handling pizza object:", e)
+        #Music for the game found here https://pixabay.com/music/synth-pop-global-djs-part-five-italo-style-5038/
+        self.background_music = arcade.load_sound("pizzamusic.wav")
+        arcade.play_sound(self.background_music)
+
 
 
 
