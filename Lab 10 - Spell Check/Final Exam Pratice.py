@@ -76,9 +76,38 @@
 """_______________WRITE CODE TO PRINT FIRST AND LAST VALUES________________________"""
 
 """_________9_____Classes and Objects______________________________________________"""
-"""_______________WHAT DOES THE FOLLOWING LIND OF CODE DO__________________________"""
+"""_________a_____WHAT DOES THE FOLLOWING LIND OF CODE DO?__________________________"""
 #class Cat(Animal):
 #This creates a Cat class that gets all the methods from the Animal class.
-"""__________b___WHAT DOES THE FOLLOWING LINE OF CODE DO?__________________________"""
+"""_______________WHAT DOES THE FOLLOWING LIND OF CODE DO?__________________________"""
 
+"""__________b___WHAT DOES THE FOLLOWING LINE OF CODE DO?__________________________"""
+#def__init__(self):
+#    Animal.__init__(self)
+#This sets up the child class and makes sure the Animal class is also set up correctly.
+"""______________WHAT DOES THE FOLLOWING LINE OF CODE DO?__________________________"""
+# This class is called Animal. It has:
+# - one attribute: name (set when you create the object)
+# - one method: speak(), which prints a message using the name
+#BELOW IS THE CODE
+"""___________C__WRITE CODE THAT CREATES A CLASS CALLED ANIMAL GIVE IT ONE ATTRIBUTE AND ONE METHOD___________"""
+class Animal:
+    def __init__(self, name):
+        self.name = name  #Name is the attribute
+
+    def speak(self):
+        print(f"{self.name} makes a sound.")  # This is the method
+
+"""______________WRITE CODE THAT CREATES A CLASS CALLED ANIMAL GIVE IT ONE ATTRIBUTE AND ONE METHOD___________"""
+# This class is called Cat. It inherits from Animal.
+# It has its own version of the speak() method.
+# Below that, we create a Cat object named "Whiskers" and call the speak() method.
+#BELOW IS THE CODE
+"""_________D_____WRITE CODE THAT CREATES AN INSTANCE OF CAT. SET THE ATTRIBUTE AND CALL THE METHOD___________"""
+class Cat(Animal):
+    def speak(self):
+        print(f"{self.name} says meow.")
+# Create an instance of Cat and call the method
+my_cat = Cat("Whiskers")
+my_cat.speak()
 
