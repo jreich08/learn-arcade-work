@@ -1,11 +1,24 @@
 { "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
  "margin":0,
  "name":"pizzasign",
  "spacing":0,
- "tilecount":0,
+ "tilecount":1,
  "tiledversion":"1.11.2",
- "tileheight":1,
- "tilewidth":1,
+ "tileheight":8,
+ "tiles":[
+        {
+         "id":0,
+         "image":"pizza_sign_8x8.png",
+         "imageheight":8,
+         "imagewidth":8
+        }],
+ "tilewidth":8,
  "type":"tileset",
  "version":"1.10"
 }

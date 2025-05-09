@@ -55,8 +55,30 @@
 #print(return_largest(5, 10))
 """______CREATE A FUNCTION THAT TAKES TWO NUMBERS AND RETURNS THE LARGEST_________"""
 
+"""____7_CREATE A RECURSIVE FUNCTION THAT TAKES A STRING AND PRINTS BACKWARDS_____"""
 
+#def print_backwards(string):
+#    if len(string)>1:
+#        print_backwards(string[1:])
+#    print(string[0], end="")
 
+#print_backwards("mushroom")
 
+"""______CREATE A RECURSIVE FUNCTION THAT TAKES A STRING AND PRINTS BACKWARDS_____"""
+
+"""____8__________WRITE CODE TO PRINT FIRST AND LAST VALUES________________________"""
+
+#list = [55,41,52,68,45,27,40,25,37,26]
+
+#print("First value:", list[0])
+#print("Last value:", list[-1])
+
+"""_______________WRITE CODE TO PRINT FIRST AND LAST VALUES________________________"""
+
+"""_________9_____Classes and Objects______________________________________________"""
+"""_______________WHAT DOES THE FOLLOWING LIND OF CODE DO__________________________"""
+#class Cat(Animal):
+#This creates a Cat class that gets all the methods from the Animal class.
+"""__________b___WHAT DOES THE FOLLOWING LINE OF CODE DO?__________________________"""
 
 

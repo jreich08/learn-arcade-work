@@ -1,11 +1,24 @@
 { "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
  "margin":0,
  "name":"pizzasignpink",
  "spacing":0,
- "tilecount":0,
+ "tilecount":1,
  "tiledversion":"1.11.2",
- "tileheight":1,
- "tilewidth":1,
+ "tileheight":1024,
+ "tiles":[
+        {
+         "id":0,
+         "image":"ChatGPT Image May 3, 2025, 04_42_19 PM.png",
+         "imageheight":1024,
+         "imagewidth":1024
+        }],
+ "tilewidth":1024,
  "type":"tileset",
  "version":"1.10"
 }

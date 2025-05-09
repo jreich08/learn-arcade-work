@@ -1,11 +1,24 @@
 { "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
  "margin":0,
  "name":"pizzahannah",
  "spacing":0,
- "tilecount":0,
+ "tilecount":1,
  "tiledversion":"1.11.2",
- "tileheight":1,
- "tilewidth":1,
+ "tileheight":120,
+ "tiles":[
+        {
+         "id":0,
+         "image":"..\/..\/..\/Downloads\/pizza.png",
+         "imageheight":120,
+         "imagewidth":120
+        }],
+ "tilewidth":120,
  "type":"tileset",
  "version":"1.10"
 }
