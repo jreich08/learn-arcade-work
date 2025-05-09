@@ -129,15 +129,15 @@ class Car:
 
     def stop_y(self):
         self.front.change_y = 0
-# Class Establishing My Pizzas
-#class Pizza(arcade.sprite):
-    #def __init__(self):
-        #super().__init__("pizzaiswear.png", scale=0.5)
-       # self.center_x = x
-        #self.center_y = y
-        #self.being_carried = False
+ #Class Establishing My Pizzas
+class Pizza(arcade.Sprite):
+    def __init__(self,x,y):
+        super().__init__("pizzaiswear.png", scale=2.0)
+        self.center_x = x
+        self.center_y = y
+        self.being_carried = False
 
-#THIS IS BROKEN
+
 
 
 # Main Class for the Game Window
@@ -182,16 +182,27 @@ class MyGame(arcade.Window):
         )
         self.car.physics_engine = self.physics_engine
         # Creates and invisible pickup spot unfinished does not actually create a pizza yet
-        store_layer = self.tile_map.object_lists.get("Pizza Store", [])
-        for obj in store_layer:
-            store_point = arcade.Sprite(center_x=obj.shape[0][0], center_y=obj.shape[0][1])
-            store_point.visible = False
-            self.pizza_store.append(store_point)
+       #PIZZA CODE
+        store_layer = self.tile_map.object_lists.get("PizzaStore", [])
+        if not store_layer:
+            print(" No pizza spawn objects found in 'PizzaStore' layer.")
+        else:
+            for obj in store_layer:
+                try:
+                    x, y = obj.shape  # ← This safely unpacks position
+                    print(f" Pizza spawn point: ({x}, {y})")
 
-        #Pizza Code
-            pizza = Pizza(x=obj.shape[0][0], y = obj.shape[0][1])
-            self.scene.add_sprite("Pizza", pizza)
-            self.active_pizza = pizza
+                    store_point = arcade.Sprite(center_x=x, center_y=y)
+                    store_point.visible = False
+                    self.pizza_store.append(store_point)
+
+                    pizza = Pizza(x, y)
+                    self.scene.add_sprite("Pizza", pizza)
+                    self.active_pizza = pizza
+                    print(" Pizza created and added to scene.")
+                except Exception as e:
+                    print(" Error handling pizza object:", e)
+
 
 
 
@@ -249,8 +260,8 @@ class MyGame(arcade.Window):
                         print("Entered car")
                     elif key == arcade.key.E:
                         distance = arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza)
-                        if distance < 5:
-                            self.being_carried = True
+                        if distance < 10 and not self.active_pizza.being_carried:
+                            self.active_pizza.being_carried = True
                             print("Picked up a Pizza!")
 
 
