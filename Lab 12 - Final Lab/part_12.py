@@ -138,7 +138,7 @@ class Pizza(arcade.Sprite):
         self.being_carried = False
 
 
-#keepworking
+
 
 # Main Class for the Game Window
 class MyGame(arcade.Window):
@@ -189,7 +189,7 @@ class MyGame(arcade.Window):
         else:
             for obj in store_layer:
                 try:
-                    x, y = obj.shape  # ← This safely unpacks position
+                    x, y = obj.shape
                     print(f" Pizza spawn point: ({x}, {y})")
 
                     store_point = arcade.Sprite(center_x=x, center_y=y)
@@ -203,6 +203,7 @@ class MyGame(arcade.Window):
                 except Exception as e:
                     print(" Error handling pizza object:", e)
         #Music for the game found here https://pixabay.com/music/synth-pop-global-djs-part-five-italo-style-5038/
+
         self.background_music = arcade.load_sound("pizzamusic.wav")
         arcade.play_sound(self.background_music)
 
