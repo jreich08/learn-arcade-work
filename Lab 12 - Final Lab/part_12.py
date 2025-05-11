@@ -1,4 +1,5 @@
 import arcade
+import random
 
 #player does not have collisions
 #pizzas do not exist yet
@@ -18,6 +19,8 @@ PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
 MONEY_COUNT = 0
 RENT_COST = 150
+
+
 
 
 # Creates a class for the car sprite that the player will control
@@ -158,9 +161,11 @@ class MyGame(arcade.Window):
         self.pizza_store = arcade.SpriteList()
         self.delivery_locations = []
         self.active_pizza = None
+        self.money = 0
+        self.time_left = 120
 
     def setup(self):
-        #boots up the map
+        # boots up the map
         self.tile_map = arcade.load_tilemap(MAP_FILE, scaling=TILE_SCALING)
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
@@ -175,14 +180,16 @@ class MyGame(arcade.Window):
         self.person_sprite.center_y = 100
         self.person_sprite.visible = False
         self.scene.add_sprite("Person", self.person_sprite)
+
         # Sets the invisible layer in tiled as barrier set. The goal of this is to force the car onto the road
         self.physics_engine = arcade.PhysicsEngineSimple(
             self.car.front,
             walls=self.scene["Barrier"]
         )
         self.car.physics_engine = self.physics_engine
-        # Creates and invisible pickup spot unfinished does not actually create a pizza yet
-       #PIZZA CODE
+
+        # Creates an invisible pickup spot — unfinished — does not actually create a pizza yet
+        # PIZZA CODE
         store_layer = self.tile_map.object_lists.get("PizzaStore", [])
         if not store_layer:
             print(" No pizza spawn objects found in 'PizzaStore' layer.")
@@ -197,15 +204,43 @@ class MyGame(arcade.Window):
                     self.pizza_store.append(store_point)
 
                     pizza = Pizza(x, y)
-                    self.scene.add_sprite("Pizza", pizza)
+                    self.scene.add_sprite("pizzaiswear.png", pizza)
                     self.active_pizza = pizza
                     print(" Pizza created and added to scene.")
                 except Exception as e:
-                    print(" Error handling pizza object:", e)
-        #Music for the game found here https://pixabay.com/music/synth-pop-global-djs-part-five-italo-style-5038/
+                    print(" handling pizza object problem", e)
 
+            self.store_layer_data = store_layer
+
+        # DELIVERY POINTS LOADING
+        delivery_layer = self.tile_map.object_lists.get("DeliveryPoints", [])
+        if not delivery_layer:
+            print("No delivery points found in 'DeliveryPoints' layer.")
+        else:
+            for obj in delivery_layer:
+                try:
+                    x, y = obj.shape
+
+                    delivery_point = arcade.Sprite(center_x=x, center_y=y)
+                    delivery_point.visible = False
+                    self.delivery_locations.append(delivery_point)
+                    print(f"Delivery point added at ({x}, {y})")
+                except Exception as e:
+                    print("Error handling delivery object:", e)
+
+        # Music for the game found here https://pixabay.com/music/synth-pop-global-djs-part-five-italo-style-5038/
         self.background_music = arcade.load_sound("pizzamusic.wav")
-        arcade.play_sound(self.background_music)
+        arcade.play_sound(self.background_music, volume=0.5, looping=True)
+
+        # picup sound link https://pixabay.com/sound-effects/coin-collect-retro-8-bit-sound-effect-145251/
+        self.pickup_sound = arcade.load_sound("coin-collect-retro-8-bit-sound-effect-145251.wav")
+
+        # Car door noise link https://pixabay.com/sound-effects/car-door-47981/
+        self.enter_exit_sound = arcade.load_sound("car-door-47981.wav")
+
+        self.car_idle_sound = arcade.load_sound("car-engine-noise-321224.wav")
+        self.car_idle_player = None
+
 
 
 
@@ -214,6 +249,10 @@ class MyGame(arcade.Window):
     def on_draw(self):
         self.clear()
         self.scene.draw()
+        #Font downloaded from here https://fonts.google.com/selection
+        arcade.draw_text(f"Money: ${self.money}", 10, SCREEN_HEIGHT - 20, arcade.color.BLACK, 14, )
+        arcade.draw_text(f"Time Left: {int(self.time_left)}s", 10, SCREEN_HEIGHT - 40, arcade.color.BLACK, 14,)
+
 
     def on_update(self, delta_time):
        #Updates the cars and physics
@@ -229,6 +268,29 @@ class MyGame(arcade.Window):
                 else:
                         self.active_pizza.center_x = self.person_sprite.center_x
                         self.active_pizza.center_y = self.person_sprite.center_y + 20
+
+        self.time_left -= delta_time
+        if self.time_left <= 0:
+            print("Time's up!")
+            self.time_left = 0
+            """PIZZA GENERATION AREA"""
+            # DELIVERY CHECK AND PIZZA REGENERATION (INSERTED)
+            if self.active_pizza and self.active_pizza.being_carried:
+                for point in self.delivery_locations:
+                    if arcade.get_distance_between_sprites(self.active_pizza, point) < 20:
+                        print("Pizza Delivered!")
+                        self.money += 25
+                        self.active_pizza.remove_from_sprite_lists()
+                        self.active_pizza = None
+
+                        # Generate new pizza at random store point
+                        if self.store_layer_data:
+                            spawn_obj = random.choice(self.store_layer_data)
+                            x, y = spawn_obj.shape
+                            new_pizza = Pizza(x, y)
+                            self.scene.add_sprite("Pizza", new_pizza)
+                            self.active_pizza = new_pizza
+                            print("New pizza spawned!")
     #WASD Movement coded
     def on_key_press(self, key, modifiers):
         if self.in_car:
@@ -246,6 +308,9 @@ class MyGame(arcade.Window):
                 self.person_sprite.center_y = self.car.front.center_y + 25
                 self.person_sprite.visible = True
                 self.in_car = False
+                if self.car_idle_player and self.car_idle_player.playing:
+                    self.car_idle_player.pause()
+                    self.car_idle_player = None
                 print("Exited car")
 
         else: #player movement code
@@ -262,11 +327,16 @@ class MyGame(arcade.Window):
                     if distance < 10:
                         self.in_car = True
                         self.person_sprite.visible = False
+                        arcade.play_sound(self.enter_exit_sound, volume = 2)
+                        if self.car_idle_player is None or not self.car_idle_player.playing:
+                            self.car_idle_player = self.car_idle_sound.play(volume=0.5)
+                            self.car_idle_player.loop = True
                         print("Entered car")
                     elif key == arcade.key.E:
                         distance = arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza)
                         if distance < 10 and not self.active_pizza.being_carried:
                             self.active_pizza.being_carried = True
+                            arcade.play_sound(self.pickup_sound, volume = 2)
                             print("Picked up a Pizza!")
 
 
