@@ -180,6 +180,12 @@ class MyGame(arcade.Window):
         self.person_sprite.center_y = 100
         self.person_sprite.visible = False
         self.scene.add_sprite("Person", self.person_sprite)
+        #Flag Sprite
+        """FLAG"""
+        self.delivery_icon = arcade.Sprite(":resources:images/items/flagGreen2.png", scale=0.15)
+        self.delivery_icon.visible = False
+        self.scene.add_sprite("DeliveryIcon", self.delivery_icon)
+        self.current_target = None
 
         # Sets the invisible layer in tiled as barrier set. The goal of this is to force the car onto the road
         self.physics_engine = arcade.PhysicsEngineSimple(
@@ -241,8 +247,29 @@ class MyGame(arcade.Window):
         self.car_idle_sound = arcade.load_sound("car-engine-noise-321224.wav")
         self.car_idle_player = None
 
+    def handle_pizza_delivery(self):
+        print("Pizza Delivered!")
+        self.money += 25
+        self.active_pizza.remove_from_sprite_lists()
+        self.active_pizza = None
+        self.delivery_icon.visible = False
 
+        # Spawn new pizza
+        if self.store_layer_data:
+            spawn_obj = random.choice(self.store_layer_data)
+            x, y = spawn_obj.shape
+            new_pizza = Pizza(x, y)
+            self.scene.add_sprite("Pizza", new_pizza)
+            self.active_pizza = new_pizza
+            print("New pizza spawned!")
 
+        # Set new delivery target
+        if self.delivery_locations:
+            self.current_target = random.choice(self.delivery_locations)
+            self.delivery_icon.center_x = self.current_target.center_x
+            self.delivery_icon.center_y = self.current_target.center_y
+            self.delivery_icon.visible = True
+            print("New delivery target set!")
 
 
 
@@ -250,38 +277,60 @@ class MyGame(arcade.Window):
         self.clear()
         self.scene.draw()
         #Font downloaded from here https://fonts.google.com/selection
-        arcade.draw_text(f"Money: ${self.money}", 10, SCREEN_HEIGHT - 20, arcade.color.BLACK, 14, )
-        arcade.draw_text(f"Time Left: {int(self.time_left)}s", 10, SCREEN_HEIGHT - 40, arcade.color.BLACK, 14,)
-
+        arcade.draw_text(f"Money: ${self.money}", 570, SCREEN_HEIGHT - 20, arcade.color.BLACK, 14,
+                         font_name="Kenney Mini") #font from the arcade lib
+        arcade.draw_text(f"Time Left: {int(self.time_left)}s", 570, SCREEN_HEIGHT - 40, arcade.color.BLACK, 14,
+                         font_name="Kenney Mini")
 
     def on_update(self, delta_time):
-       #Updates the cars and physics
+        # Updates the cars and physics
         if self.in_car:
             self.car.update()
         else:
             self.person_sprite.update()
 
+        # Carry pizza with player or car
         if self.active_pizza and self.active_pizza.being_carried:
-                if self.in_car:
-                        self.active_pizza.center_x = self.car.front.center_x
-                        self.active_pizza.center_y = self.car.front.center_y + 20
-                else:
-                        self.active_pizza.center_x = self.person_sprite.center_x
-                        self.active_pizza.center_y = self.person_sprite.center_y + 20
+            if self.in_car:
+                self.active_pizza.center_x = self.car.front.center_x
+                self.active_pizza.center_y = self.car.front.center_y + 20
+            else:
+                self.active_pizza.center_x = self.person_sprite.center_x
+                self.active_pizza.center_y = self.person_sprite.center_y + 20
 
+            # Check for delivery
+            if self.current_target and arcade.get_distance_between_sprites(self.active_pizza, self.current_target) < 20:
+                self.handle_pizza_delivery()
+
+        # Timer update
         self.time_left -= delta_time
         if self.time_left <= 0:
             print("Time's up!")
             self.time_left = 0
+
             """PIZZA GENERATION AREA"""
-            # DELIVERY CHECK AND PIZZA REGENERATION (INSERTED)
+            # DELIVERY CHECK AND PIZZA REGENERATION
             if self.active_pizza and self.active_pizza.being_carried:
                 for point in self.delivery_locations:
-                    if arcade.get_distance_between_sprites(self.active_pizza, point) < 20:
+                    if self.current_target and arcade.get_distance_between_sprites(self.active_pizza, self.current_target) < 20:
                         print("Pizza Delivered!")
                         self.money += 25
                         self.active_pizza.remove_from_sprite_lists()
                         self.active_pizza = None
+                        self.delivery_icon.visible = False
+
+                        if self.delivery_locations:
+                            self.current_target = random.choice(self.delivery_locations)
+                            self.delivery_icon.center_x = self.current_target.center_x
+                            self.delivery_icon.center_y = self.current_target.center_y
+                            self.delivery_icon.visible = True
+
+                        if self.delivery_locations:
+                            self.current_target = random.choice(self.delivery_locations)
+                            self.delivery_icon.center_x = self.current_target.center_x
+                            self.delivery_icon.center_y = self.current_target.center_y
+                            self.delivery_icon.visible = True
+                            print("New target selected!")
 
                         # Generate new pizza at random store point
                         if self.store_layer_data:
@@ -291,6 +340,16 @@ class MyGame(arcade.Window):
                             self.scene.add_sprite("Pizza", new_pizza)
                             self.active_pizza = new_pizza
                             print("New pizza spawned!")
+
+                           # if self.delivery_locations:
+                                #self.current_target = random.choice(self.delivery_locations)
+                               # self.delivery_icon.center_x = self.current_target.center_x
+                               # self.delivery_icon.center_y = self.current_target.center_y
+                               # self.delivery_icon.visible = True
+
+                               # if not self.active_pizza or not self.active_pizza.being_carried:
+                                 #   self.delivery_icon.visible = False
+
     #WASD Movement coded
     def on_key_press(self, key, modifiers):
         if self.in_car:
