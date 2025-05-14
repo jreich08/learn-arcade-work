@@ -41,7 +41,7 @@ LEVEL_MAPS = {
         (164.0, 135.0),
         (211.67, 134.0),
         (52.0, 118.33),
-        (11.67, 118.0)
+        #(11.67, 118.0)
     ],
     "player_start": (64, 64),
     "car_start": (50, 44)
@@ -305,6 +305,10 @@ class MyGame(arcade.Window):
 
     def load_level(self):
         #Get level-specific settings
+        self.delivery_locations = []
+        self.current_target = None
+        self.active_pizza = None
+        self.scene = None
         level_data = LEVEL_MAPS[self.level]
         map_file = level_data["map_file"]
         delivery_coords = level_data["delivery_coords"]
@@ -364,6 +368,7 @@ class MyGame(arcade.Window):
             self.delivery_icon.center_x = self.current_target.center_x
             self.delivery_icon.center_y = self.current_target.center_y
             self.delivery_icon.visible = True
+            print(f"[LEVEL {self.level}] Flag target: ({self.current_target.center_x}, {self.current_target.center_y})")
 
     def handle_pizza_delivery(self):
         print("Pizza Delivered!")
