@@ -1,13 +1,7 @@
 import arcade
 import random
 
-#player does not have collisions
-#pizzas do not exist yet
-#money does not exist yet
-#rent does not exist yet
-#sound does not exist yet
-#no second level
-#draw car behind the houses so draw the car first
+
 # game assets from here: https://kenney.nl/assets/pico-8-city
 #Constants
 SCREEN_WIDTH = 700
@@ -18,36 +12,8 @@ MAP_FILE = "mapcity.json"
 PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
 MONEY_COUNT = 0
+RENT_COST = 150
 RENT_COST = 25
-LEVEL_MAPS = {
-    1: {
-        "map_file": "mapcity.json",
-        "delivery_coords": [
-            (35.0, 74.0),
-            (180.0, 196.0),
-            (299.0, 174.0),
-            (349.0, 314.0),
-            (418.0, 172.0),
-            (177.0, 54.0)
-        ],
-        "player_start": (250, 175),
-        "car_start": (250, 150)
-    },
- 2: {
-    "map_file": "hannahville.json",
-    "delivery_coords": [
-        (35.67, 69.67),
-        (155.67, 70.67),
-        (164.0, 135.0),
-        (211.67, 134.0),
-        (52.0, 118.33),
-        #(11.67, 118.0)
-    ],
-    "player_start": (64, 64),
-    "car_start": (50, 44)
- }
- }
-
 
 
 
@@ -61,7 +27,6 @@ class Car:
         self.direction = "east"
         self.speed = 1
         self.physics_engine = None
-
         #This is when the car is heading East or West
 
         # Front of car
@@ -183,6 +148,8 @@ class MyGame(arcade.Window):
         #Sprites that the player will be interacting with
         self.car = None
         self.person_sprite = None
+        #will be relevant once I code the player getting in and out of the car
+        self.in_car = True
         self.in_car = False
 
         self.physics_engine = None
@@ -191,11 +158,12 @@ class MyGame(arcade.Window):
         self.delivery_locations = []
         self.active_pizza = None
         self.money = 0
-        self.time_left = 120
+        self.time_left = 5
+        self.time_left = 20
         self.game_over = False
         self.eviction_notice = None
         self.game_state = "START"
-        self.level = 1
+
 
     def setup(self):
         # boots up the map
@@ -209,16 +177,18 @@ class MyGame(arcade.Window):
 
         # Person sprite it is hidden at first
         self.person_sprite = arcade.Sprite("person.png", PLAYER_SCALING)
+        self.person_sprite.center_x = 100
+        self.person_sprite.center_y = 100
+        self.person_sprite.visible = False
         self.person_sprite.center_x = 250
         self.person_sprite.center_y = 175
         self.person_sprite.visible = True
         self.scene.add_sprite("Person", self.person_sprite)
-
-        # Flag Sprite
+        #Flag Sprite
+        """FLAG"""
         self.delivery_icon = arcade.Sprite(":resources:images/items/flagGreen2.png", scale=0.15)
         self.delivery_icon.visible = False
         self.scene.add_sprite("DeliveryIcon", self.delivery_icon)
-
         self.current_target = None
 
         # Sets the invisible layer in tiled as barrier set. The goal of this is to force the car onto the road
@@ -230,41 +200,44 @@ class MyGame(arcade.Window):
 
         # Creates an invisible pickup spot — unfinished — does not actually create a pizza yet
         # PIZZA CODE
-        self.pizza_store = arcade.SpriteList()
-        self.delivery_locations = []
         store_layer = self.tile_map.object_lists.get("PizzaStore", [])
-        self.store_layer_data = store_layer
-        for obj in store_layer:
-            x, y = obj.shape
-            store_point = arcade.Sprite(center_x=x, center_y=y)
-            store_point.visible = False
-            self.pizza_store.append(store_point)
-            new_pizza = Pizza(x, y)
-            self.scene.add_sprite("Pizza", new_pizza)
-            self.active_pizza = new_pizza
-            print(f"Pizza created at ({x}, {y})")
+        if not store_layer:
+            print(" No pizza spawn objects found in 'PizzaStore' layer.")
+        else:
+            for obj in store_layer:
+                try:
+                    x, y = obj.shape
+                    print(f" Pizza spawn point: ({x}, {y})")
 
-        # manual_delivery_coords = [
-        #    (35.0, 74.0),
-        #    (180.0, 196.0),
-        #    (299.0, 174.0),
-        #    (349.0, 314.0),
-        #    (418.0, 172.0),
-        #    (177.0, 54.0)
-        # ]
-      #  manual_delivery_coords = [
-           # (35.0, 74.0),
-         #   (180.0, 196.0),
-          #  (299.0, 174.0),
-          #  (349.0, 314.0),
-           # (418.0, 172.0),
-          #  (177.0, 54.0)
-       # ]
-       # for coord in manual_delivery_coords:
-        #    delivery_point = arcade.Sprite(center_x=coord[0], center_y=coord[1])
-        #    delivery_point.visible = False
-         #   self.delivery_locations.append(delivery_point)
-         #   print(f"Delivery point added at {coord}")
+                    store_point = arcade.Sprite(center_x=x, center_y=y)
+                    store_point.visible = False
+                    self.pizza_store.append(store_point)
+
+                    pizza = Pizza(x, y)
+                    self.scene.add_sprite("pizzaiswear.png", pizza)
+                    self.active_pizza = pizza
+                    print(" Pizza created and added to scene.")
+                except Exception as e:
+                    print(" handling pizza object problem", e)
+
+            self.store_layer_data = store_layer
+
+        # DELIVERY POINTS LOADING
+        delivery_layer = self.tile_map.object_lists.get("DeliveryPoints", [])
+        manual_delivery_coords = [
+            (35.0, 74.0),
+            (180.0, 196.0),
+            (299.0, 174.0),
+            (349.0, 314.0),
+            (418.0, 172.0),
+            (177.0, 54.0)
+        ]
+
+        for coord in manual_delivery_coords:
+            delivery_point = arcade.Sprite(center_x=coord[0], center_y=coord[1])
+            delivery_point.visible = False
+            self.delivery_locations.append(delivery_point)
+            print(f" Delivery point added at {coord}")
 
         if self.delivery_locations:
             self.current_target = random.choice(self.delivery_locations)
@@ -273,12 +246,12 @@ class MyGame(arcade.Window):
             self.delivery_icon.visible = True
             print("Delivery target set and flag placed.")
 
-        # Eviction Image
         self.eviction_image = arcade.Sprite("eviction_notice.png", scale=0.6)
         self.eviction_image.center_x = SCREEN_WIDTH // 2
         self.eviction_image.center_y = SCREEN_HEIGHT // 2
         self.eviction_image.visible = False
         self.scene.add_sprite("UI", self.eviction_image)
+
 
         # Music for the game found here https://pixabay.com/music/synth-pop-global-djs-part-five-italo-style-5038/
         self.background_music = arcade.load_sound("pizzamusic.wav")
@@ -289,86 +262,15 @@ class MyGame(arcade.Window):
 
         # Car door noise link https://pixabay.com/sound-effects/car-door-47981/
         self.enter_exit_sound = arcade.load_sound("car-door-47981.wav")
-
-        # GOT THIS FROM HERE https://pixabay.com/sound-effects/car-engine-noise-321224/
+        # Car engine noise https://pixabay.com/sound-effects/car-engine-noise-321224/
         self.car_idle_sound = arcade.load_sound("car-engine-noise-321224.wav")
         self.car_idle_player = None
-
-        # GOT THIS FROM HERE https://pixabay.com/sound-effects/cash-register-purchase-87313/
+        #GOT THIS FROM HERE https://pixabay.com/sound-effects/cash-register-purchase-87313/
         self.delivery_sound = arcade.load_sound("cash-register-purchase-87313.wav")
-
-        # GOT THIS FROM HERE https://pixabay.com/sound-effects/level-failed-80951/
+        #Got this from here https://pixabay.com/sound-effects/level-failed-80951/
         self.game_fail_sound = arcade.load_sound("level-failed-80951.wav")
-
-        # GOT THIS FROM HERE https: // pixabay.com / sound - effects / you - win - sequence - 3 - 183950 /
+        #got this from here https://pixabay.com/sound-effects/you-win-sequence-3-183950/
         self.game_win_sound = arcade.load_sound("you-win-sequence-3-183950.wav")
-
-    def load_level(self):
-        #Get level-specific settings
-        self.delivery_locations = []
-        self.current_target = None
-        self.active_pizza = None
-        self.scene = None
-        level_data = LEVEL_MAPS[self.level]
-        map_file = level_data["map_file"]
-        delivery_coords = level_data["delivery_coords"]
-        player_start = level_data["player_start"]
-        car_start = level_data["car_start"]
-
-        # Load the map and create a new scene
-        self.tile_map = arcade.load_tilemap(map_file, scaling=TILE_SCALING)
-        self.scene = arcade.Scene.from_tilemap(self.tile_map)
-
-        # Reset player and car positions
-        self.car.front.center_x, self.car.front.center_y = car_start
-        self.car.update_back_position()
-        self.person_sprite.center_x, self.person_sprite.center_y = player_start
-        self.person_sprite.visible = True
-        self.in_car = False
-
-        #Reset delivery flag
-        self.delivery_icon = arcade.Sprite(":resources:images/items/flagGreen2.png", scale=0.15)
-        self.delivery_icon.visible = False
-
-        # add sprites to scene
-        self.scene.add_sprite("CarFront", self.car.front)
-        self.scene.add_sprite("CarBack", self.car.back)
-        self.scene.add_sprite("Person", self.person_sprite)
-        self.scene.add_sprite("DeliveryIcon", self.delivery_icon)
-
-        # barrier physics
-        self.physics_engine = arcade.PhysicsEngineSimple(
-            self.car.front,
-            walls=self.scene["Barrier"]
-        )
-        self.car.physics_engine = self.physics_engine
-
-        #Load pizza store data and create a new pizza
-        self.pizza_store = arcade.SpriteList()
-        store_layer = self.tile_map.object_lists.get("PizzaStore", [])
-        self.store_layer_data = store_layer
-        for obj in store_layer:
-            x, y = obj.shape
-            store_point = arcade.Sprite(center_x=x, center_y=y)
-            store_point.visible = False
-            self.pizza_store.append(store_point)
-            new_pizza = Pizza(x, y)
-            self.scene.add_sprite("Pizza", new_pizza)
-            self.active_pizza = new_pizza
-
-        #Load delivery locations and set the target
-        self.delivery_locations = []
-        for coord in delivery_coords:
-            delivery_point = arcade.Sprite(center_x=coord[0], center_y=coord[1])
-            delivery_point.visible = False
-            self.delivery_locations.append(delivery_point)
-
-        if self.delivery_locations:
-            self.current_target = random.choice(self.delivery_locations)
-            self.delivery_icon.center_x = self.current_target.center_x
-            self.delivery_icon.center_y = self.current_target.center_y
-            self.delivery_icon.visible = True
-            print(f"[LEVEL {self.level}] Flag target: ({self.current_target.center_x}, {self.current_target.center_y})")
 
     def handle_pizza_delivery(self):
         print("Pizza Delivered!")
@@ -400,8 +302,8 @@ class MyGame(arcade.Window):
             self.delivery_icon.visible = False
             if self.background_music_player:
                 self.background_music_player.pause()
-            print("You Win! Press ENTER to continue.")
             arcade.play_sound(self.game_win_sound, volume =2  )
+            print("You Win!")
 
     def on_draw(self):
         self.clear()
@@ -419,19 +321,13 @@ class MyGame(arcade.Window):
             arcade.draw_text(f"Time Left: {int(self.time_left)}s", 570, SCREEN_HEIGHT - 40, arcade.color.BLACK, 14,
                              font_name="Kenney Mini")
 
-
         elif self.game_state == "WIN":
-
             if self.car_idle_player and self.car_idle_player.playing:
                 self.car_idle_player.pause()
-
                 self.car_idle_player = None
-
             arcade.draw_text("YOU WIN!", 210, 300, arcade.color.GREEN, 32, bold=True)
-
             arcade.draw_text(f"Final Earnings: ${self.money}", 220, 250, arcade.color.GREEN, 20)
-
-            arcade.draw_text("Press ENTER to Continue", 200, 180, arcade.color.GRAY, 18)
+            arcade.draw_text("Press ESC to Quit", 220, 180, arcade.color.GRAY, 18)
 
     def on_update(self, delta_time):
         if self.game_state != "PLAYING":
@@ -533,12 +429,6 @@ class MyGame(arcade.Window):
             self.game_state = "PLAYING"
             print("Game started!")
             return
-        elif self.game_state == "WIN" and key == arcade.key.ENTER:
-            self.level = 2
-            self.money = 0
-            self.time_left = 90
-            self.game_state = "PLAYING"
-            self.load_level()
         if self.in_car:
             if key == arcade.key.W:
                 self.car.move_up()
@@ -560,6 +450,8 @@ class MyGame(arcade.Window):
                     self.car_idle_player.pause()
                     self.car_idle_player = None
                 print("Exited car")
+
+
 
         else: #player movement code
                 if key == arcade.key.W:
@@ -583,7 +475,7 @@ class MyGame(arcade.Window):
                             self.car_idle_player.loop = True
                         print("Entered car")
                     elif key == arcade.key.E:
-                        # Enter car
+                        # Check if near the car to enter
                         if arcade.get_distance_between_sprites(self.person_sprite, self.car.front) < 10:
                             self.in_car = True
                             self.person_sprite.visible = False
@@ -595,18 +487,25 @@ class MyGame(arcade.Window):
                                 self.car_idle_player.loop = True
                             print("Entered car")
 
-                        # Pick up pizza
+                        # Check if near pizza to pick up
                         elif self.active_pizza and not self.active_pizza.being_carried and \
                                 arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza) < 10:
                             self.active_pizza.being_carried = True
                             arcade.play_sound(self.pickup_sound, volume=2)
                             print("Picked up a Pizza!")
 
-                        # Deliver pizza
+                        # Check if near delivery point to deliver
                         elif self.active_pizza and self.active_pizza.being_carried and \
                                 arcade.get_distance_between_sprites(self.person_sprite, self.current_target) < 20:
                             print("Attempting delivery")
                             self.handle_pizza_delivery()
+
+
+
+
+
+
+
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
@@ -629,8 +528,6 @@ class MyGame(arcade.Window):
 if __name__ == "__main__":
     game = MyGame()
     game.setup()
-    game.load_level()
     arcade.run()
 
 #wat
-    #git
