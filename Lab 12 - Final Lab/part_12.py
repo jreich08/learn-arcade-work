@@ -18,7 +18,7 @@ MAP_FILE = "mapcity.json"
 PLAYER_SCALING = 3.0
 ENTER_DISTANCE = 80
 MONEY_COUNT = 0
-RENT_COST = 150
+RENT_COST = 25
 
 
 
@@ -153,8 +153,7 @@ class MyGame(arcade.Window):
         #Sprites that the player will be interacting with
         self.car = None
         self.person_sprite = None
-        #will be relevant once I code the player getting in and out of the car
-        self.in_car = True
+        self.in_car = False
 
         self.physics_engine = None
         #PIZZA CODE
@@ -162,10 +161,11 @@ class MyGame(arcade.Window):
         self.delivery_locations = []
         self.active_pizza = None
         self.money = 0
-        self.time_left = 5
+        self.time_left = 20
         self.game_over = False
         self.eviction_notice = None
         self.game_state = "START"
+        #self.game_state = "PLAYING"
 
     def setup(self):
         # boots up the map
@@ -179,9 +179,9 @@ class MyGame(arcade.Window):
 
         # Person sprite it is hidden at first
         self.person_sprite = arcade.Sprite("person.png", PLAYER_SCALING)
-        self.person_sprite.center_x = 100
-        self.person_sprite.center_y = 100
-        self.person_sprite.visible = False
+        self.person_sprite.center_x = 250
+        self.person_sprite.center_y = 175
+        self.person_sprite.visible = True
         self.scene.add_sprite("Person", self.person_sprite)
         #Flag Sprite
         """FLAG"""
@@ -268,6 +268,7 @@ class MyGame(arcade.Window):
         self.delivery_sound = arcade.load_sound("cash-register-purchase-87313.wav")
 
         self.game_fail_sound = arcade.load_sound("level-failed-80951.wav")
+        self.game_win_sound = arcade.load_sound("you-win-sequence-3-183950.wav")
 
     def handle_pizza_delivery(self):
         print("Pizza Delivered!")
@@ -294,6 +295,14 @@ class MyGame(arcade.Window):
             self.delivery_icon.visible = True
             print("New delivery target set!")
 
+        if self.money >= RENT_COST:
+            self.game_state = "WIN"
+            self.delivery_icon.visible = False
+            if self.background_music_player:
+                self.background_music_player.pause()
+            arcade.play_sound(self.game_win_sound, volume =2  )
+            print("You Win!")
+
     def on_draw(self):
         self.clear()
         if self.game_state == "START":
@@ -301,13 +310,22 @@ class MyGame(arcade.Window):
             arcade.draw_text("Use WASD to move", 100, 310, arcade.color.DARK_BLUE, 18, font_name = "Kenny Mini")
             arcade.draw_text("Press E to get in/out of the car or pick up pizza", 100, 280, arcade.color.DARK_BLUE, 18, font_name = "Kenny Mini")
             arcade.draw_text("Deliver the pizza to the green flag!", 100, 250, arcade.color.DARK_BLUE, 18, font_name = "Kenny Mini")
-            arcade.draw_text("Press ENTER to Start", 100, 200, arcade.color.RED, 20, font_name = "Kenny Mini")
+            arcade.draw_text("Press ENTER to Start", 100, 180, arcade.color.RED, 20, font_name = "Kenny Mini")
+            arcade.draw_text("Collect $150 from deliveries before the timer runs out!", 100, 220, arcade.color.DARK_BLUE, 18, font_name = "Kenny Mini")
         elif self.game_state == "PLAYING":
             self.scene.draw()
             arcade.draw_text(f"Money: ${self.money}", 570, SCREEN_HEIGHT - 20, arcade.color.BLACK, 14,
                              font_name="Kenney Mini") #from arcade library
             arcade.draw_text(f"Time Left: {int(self.time_left)}s", 570, SCREEN_HEIGHT - 40, arcade.color.BLACK, 14,
                              font_name="Kenney Mini")
+
+        elif self.game_state == "WIN":
+            if self.car_idle_player and self.car_idle_player.playing:
+                self.car_idle_player.pause()
+                self.car_idle_player = None
+            arcade.draw_text("YOU WIN!", 210, 300, arcade.color.GREEN, 32, bold=True)
+            arcade.draw_text(f"Final Earnings: ${self.money}", 220, 250, arcade.color.GREEN, 20)
+            arcade.draw_text("Press ESC to Quit", 220, 180, arcade.color.GRAY, 18)
 
     def on_update(self, delta_time):
         if self.game_state != "PLAYING":
@@ -331,9 +349,7 @@ class MyGame(arcade.Window):
                 self.active_pizza.center_x = self.person_sprite.center_x
                 self.active_pizza.center_y = self.person_sprite.center_y + 20
 
-            # Check for delivery
-            if self.current_target and arcade.get_distance_between_sprites(self.active_pizza, self.current_target) < 20:
-                self.handle_pizza_delivery()
+
 
         # Timer update
         self.time_left -= delta_time
@@ -346,10 +362,16 @@ class MyGame(arcade.Window):
                 if self.money < RENT_COST:
                     print("Evicted! You couldn't pay the rent.")
                     self.eviction_image.visible = True
+                    if self.car_idle_player and self.car_idle_player.playing:
+                        self.car_idle_player.pause()
+                        self.car_idle_player = None
                     if self.background_music_player:
                         self.background_music_player.pause()
                     arcade.play_sound(self.game_fail_sound,1)
                     self.game_over = True
+
+            if self.game_state == "WIN":
+                return
 
 
             """PIZZA GENERATION AREA"""
@@ -363,6 +385,7 @@ class MyGame(arcade.Window):
                         self.active_pizza.remove_from_sprite_lists()
                         self.active_pizza = None
                         self.delivery_icon.visible = False
+
 
                         if self.delivery_locations:
                             self.current_target = random.choice(self.delivery_locations)
@@ -448,18 +471,30 @@ class MyGame(arcade.Window):
                             self.car_idle_player.loop = True
                         print("Entered car")
                     elif key == arcade.key.E:
-                        distance = arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza)
-                        if distance < 10 and not self.active_pizza.being_carried:
+                        # Enter car
+                        if arcade.get_distance_between_sprites(self.person_sprite, self.car.front) < 10:
+                            self.in_car = True
+                            self.person_sprite.visible = False
+                            if self.active_pizza and self.active_pizza.being_carried:
+                                self.active_pizza.visible = False
+                            arcade.play_sound(self.enter_exit_sound, volume=2)
+                            if self.car_idle_player is None or not self.car_idle_player.playing:
+                                self.car_idle_player = self.car_idle_sound.play(volume=0.5)
+                                self.car_idle_player.loop = True
+                            print("Entered car")
+
+                        # Pick up pizza
+                        elif self.active_pizza and not self.active_pizza.being_carried and \
+                                arcade.get_distance_between_sprites(self.person_sprite, self.active_pizza) < 10:
                             self.active_pizza.being_carried = True
-                            arcade.play_sound(self.pickup_sound, volume = 2)
+                            arcade.play_sound(self.pickup_sound, volume=2)
                             print("Picked up a Pizza!")
 
-
-
-
-
-
-
+                        # Deliver pizza
+                        elif self.active_pizza and self.active_pizza.being_carried and \
+                                arcade.get_distance_between_sprites(self.person_sprite, self.current_target) < 20:
+                            print("Attempting delivery")
+                            self.handle_pizza_delivery()
 
         if key == arcade.key.ESCAPE:
             arcade.close_window()
