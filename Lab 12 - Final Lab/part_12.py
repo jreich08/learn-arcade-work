@@ -159,7 +159,7 @@ class MyGame(arcade.Window):
         self.active_pizza = None
         self.money = 0
         self.time_left = 5
-        self.time_left = 20
+        self.time_left = 110
         self.game_over = False
         self.eviction_notice = None
         self.game_state = "START"
